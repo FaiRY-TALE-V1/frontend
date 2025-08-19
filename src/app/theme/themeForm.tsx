@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
   BookOpen,
-  ArrowRight,
-  Heart,
   ChevronRight,
+  Heart,
   Check,
+  ChevronLeft,
 } from "lucide-react";
 
 const themes = [
@@ -27,22 +27,6 @@ const themes = [
     ],
   },
   {
-    value: "financial_literacy",
-    title: "올바른 경제관념",
-    emoji: "💰",
-    description: "용돈을 계획적으로 사용하고 저축하는 경제 습관 이야기",
-    moral:
-      "필요한 것과 갖고 싶은 것을 구분해서 현명하게 용돈을 써요. 조금씩 모으면 더 큰 꿈을 이룰 수 있어요.",
-    keywords: ["저축", "계획", "현명함"],
-    color: "from-yellow-400 to-amber-600",
-    bgColor: "bg-yellow-50",
-    examples: [
-      "🐷 저금통 돼지의 여행",
-      "💎 보물섬의 지혜",
-      "🏪 꼬마 상인의 이야기",
-    ],
-  },
-  {
     value: "friendship_skills",
     title: "교우관계",
     emoji: "🤝",
@@ -56,79 +40,6 @@ const themes = [
       "🌈 화해의 무지개",
       "🎭 새친구 환영 파티",
       "🤲 마음을 나누는 다리",
-    ],
-  },
-  {
-    value: "hygiene_habits",
-    title: "양치 & 위생 습관",
-    emoji: "🦷",
-    description: "양치질, 손 씻기, 목욕 등 깨끗한 위생 습관을 기르는 이야기",
-    moral:
-      "매일매일 깨끗하게 씻으면 병균들이 도망가요. 건강한 몸을 위해 위생 습관은 꼭 필요해요.",
-    keywords: ["청결", "건강", "습관"],
-    color: "from-cyan-400 to-teal-600",
-    bgColor: "bg-cyan-50",
-    examples: ["🦷 치아 요정의 모험", "🧼 비누 거품 친구들", "🛁 목욕탕 파티"],
-  },
-  {
-    value: "environmental_care",
-    title: "환경 보호",
-    emoji: "🌍",
-    description: "지구를 아끼고 환경을 보호하는 작은 실천들의 이야기",
-    moral:
-      "우리가 사는 지구를 깨끗하게 지키는 건 모든 생명체를 위한 일이에요. 작은 실천이 큰 변화를 만들어요.",
-    keywords: ["환경", "실천", "사랑"],
-    color: "from-emerald-400 to-green-600",
-    bgColor: "bg-emerald-50",
-    examples: [
-      "🐢 바다거북의 부탁",
-      "🌳 숲속 친구들의 분리수거",
-      "♻️ 재활용 로봇의 모험",
-    ],
-  },
-  {
-    value: "emotional_intelligence",
-    title: "감정 표현과 공감",
-    emoji: "💝",
-    description:
-      "다양한 감정을 이해하고 표현하며 친구의 마음을 공감하는 이야기",
-    moral:
-      "기쁘거나 슬플 때 마음을 표현하는 건 자연스러운 일이에요. 친구의 기분을 이해하고 위로해주면 더 좋은 친구가 될 수 있어요.",
-    keywords: ["감정", "공감", "소통"],
-    color: "from-pink-400 to-rose-600",
-    bgColor: "bg-pink-50",
-    examples: [
-      "😊 감정 요정들의 여행",
-      "🤗 마음을 나누는 숲",
-      "💕 위로의 마법사",
-    ],
-  },
-  {
-    value: "responsibility",
-    title: "자기 주도성 & 책임감",
-    emoji: "⭐",
-    description: "스스로 할 수 있는 일을 찾아 책임감 있게 해내는 성장 이야기",
-    moral:
-      "작은 일부터 스스로 해내면 점점 더 많은 일을 할 수 있게 돼요. '내가 할 수 있어!'라는 마음이 가장 큰 힘이에요.",
-    keywords: ["독립", "책임", "성장"],
-    color: "from-purple-400 to-violet-600",
-    bgColor: "bg-purple-50",
-    examples: ["🌟 별빛 임무 수행", "🎒 혼자서도 척척", "🏆 나만의 작은 성취"],
-  },
-  {
-    value: "diversity_respect",
-    title: "다양성 존중",
-    emoji: "🌈",
-    description: "서로 다른 모습과 생각을 인정하고 존중하는 포용의 이야기",
-    moral:
-      "모두가 다른 모습이고 다른 생각을 가지고 있어요. 그 다름이 세상을 더 아름답고 재미있게 만들어줘요.",
-    keywords: ["존중", "다양성", "포용"],
-    color: "from-indigo-400 to-purple-600",
-    bgColor: "bg-indigo-50",
-    examples: [
-      "🎨 색깔별 나라 여행",
-      "🎵 다양한 악기 오케스트라",
-      "🌸 각기 다른 꽃밭",
     ],
   },
   {
@@ -148,64 +59,135 @@ const themes = [
     ],
   },
   {
-    value: "creativity",
-    title: "창의력 & 상상력",
-    emoji: "🎨",
-    description: "무한한 상상력을 발휘하여 창의적인 모험을 떠나는 이야기",
+    value: "financial_literacy",
+    title: "경제관념",
+    emoji: "💰",
+    description: "용돈을 계획적으로 사용하고 저축하는 경제 습관 이야기",
     moral:
-      "상상하는 모든 것들이 특별하고 소중해요. 창의적인 생각으로 세상을 더 재미있게 만들 수 있어요.",
-    keywords: ["상상", "창의", "표현"],
-    color: "from-orange-400 to-pink-600",
-    bgColor: "bg-orange-50",
+      "필요한 것과 갖고 싶은 것을 구분해서 현명하게 용돈을 써요. 조금씩 모으면 더 큰 꿈을 이룰 수 있어요.",
+    keywords: ["저축", "계획", "현명함"],
+    color: "from-yellow-400 to-amber-600",
+    bgColor: "bg-yellow-50",
     examples: [
-      "🖍️ 크레용의 마법 세계",
-      "📚 상상 속 모험가",
-      "🎭 꿈꾸는 예술가들",
+      "🐷 저금통 돼지의 여행",
+      "💎 보물섬의 지혜",
+      "🏪 꼬마 상인의 이야기",
+    ],
+  },
+  {
+    value: "emotional_intelligence",
+    title: "감정표현",
+    emoji: "💝",
+    description:
+      "다양한 감정을 이해하고 표현하며 친구의 마음을 공감하는 이야기",
+    moral:
+      "기쁘거나 슬플 때 마음을 표현하는 건 자연스러운 일이에요. 친구의 기분을 이해하고 위로해주면 더 좋은 친구가 될 수 있어요.",
+    keywords: ["감정", "공감", "소통"],
+    color: "from-pink-400 to-rose-600",
+    bgColor: "bg-pink-50",
+    examples: [
+      "😊 감정 요정들의 여행",
+      "🤗 마음을 나누는 숲",
+      "💕 위로의 마법사",
     ],
   },
 ];
 
-const ThemePage = () => {
+const ThemeForm = () => {
   const [selectedTheme, setSelectedTheme] = useState("");
-  const [childProfile, setChildProfile] = useState({ name: "아이" }); // Mock data
+  const [childProfile, setChildProfile] = useState<{ name: string } | null>(
+    null
+  );
   const [hoveredTheme, setHoveredTheme] = useState("");
+
+  useEffect(() => {
+    // localStorage에서 아이 프로필 가져오기
+    const savedProfile = localStorage.getItem("childProfile");
+    if (savedProfile) {
+      try {
+        const profile = JSON.parse(savedProfile);
+        setChildProfile(profile);
+      } catch (error) {
+        console.error("프로필 파싱 오류:", error);
+        setChildProfile({ name: "아이" });
+      }
+    } else {
+      setChildProfile({ name: "아이" });
+    }
+  }, []);
 
   const handleThemeSelect = (themeValue: string) => {
     setSelectedTheme(themeValue);
   };
 
   const handleNext = () => {
-    if (!selectedTheme) return;
-    // Navigation logic here
+    if (!selectedTheme || !childProfile) return;
+
+    // localStorage에 선택된 테마 저장
+    localStorage.setItem("selectedTheme", selectedTheme);
+
     console.log("다음 단계로:", selectedTheme);
+
+    // 동화 페이지로 이동
+    window.location.href = "/fairytale";
   };
 
   const selectedThemeData = themes.find((t) => t.value === selectedTheme);
 
+  if (!childProfile) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="w-8 h-8 mx-auto mb-4 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+          <p className="text-gray-600">프로필을 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="sticky top-0 z-10 border-b shadow-sm backdrop-blur-md bg-white/80 border-white/20">
-        <div className="max-w-6xl px-6 py-4 mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
-            <h1 className="mb-2 text-2xl font-bold md:text-3xl text-slate-800">
-              어떤 주제의 동화를 만들까요?
-            </h1>
-            <p className="text-slate-600">
-              <span className="font-medium text-indigo-600">
-                {childProfile.name}
-              </span>
-              이의 성장에 도움이 될 교훈을 선택해주세요
-            </p>
-          </motion.div>
+      <div className="relative px-4 py-6 bg-white shadow-sm">
+        <button
+          onClick={() => (window.location.href = "/main")}
+          className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
+        >
+          <ChevronLeft className="w-5 h-5 text-gray-600" />
+        </button>
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-gray-800">테마 선택</h1>
+          <div className="flex justify-center mt-2">
+            <div className="flex space-x-2">
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="max-w-6xl px-6 py-8 mx-auto">
+        {/* Title Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8 text-center"
+        >
+          <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
+            <BookOpen className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="mb-2 text-3xl font-bold text-gray-800">
+            어떤 주제의 동화를 만들까요?
+          </h2>
+          <p className="text-lg text-gray-600">
+            <span className="font-medium text-indigo-600">
+              {childProfile.name}
+            </span>
+            이의 성장에 도움이 될 교훈을 선택해주세요
+          </p>
+        </motion.div>
+
         {/* Theme Grid */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -362,7 +344,7 @@ const ThemePage = () => {
         <div className="flex items-center justify-between">
           <button
             className="px-6 py-3 font-medium transition-colors duration-200 border border-slate-300 text-slate-600 rounded-xl hover:bg-slate-50"
-            onClick={() => console.log("이전 페이지")}
+            onClick={() => (window.location.href = "/main")}
           >
             이전
           </button>
@@ -378,7 +360,7 @@ const ThemePage = () => {
         {/* Progress indicator */}
         <div className="flex justify-center mt-8">
           <div className="flex space-x-2">
-            <div className="w-2 h-2 bg-indigo-500 rounded-full" />
+            <div className="w-2 h-2 bg-indigo-300 rounded-full" />
             <div
               className={`w-2 h-2 rounded-full ${
                 selectedTheme ? "bg-indigo-500" : "bg-slate-300"
@@ -387,9 +369,14 @@ const ThemePage = () => {
             <div className="w-2 h-2 rounded-full bg-slate-300" />
           </div>
         </div>
+
+        {/* Progress text */}
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-500">2단계 / 3단계 - 테마 선택 중</p>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ThemePage;
+export default ThemeForm;

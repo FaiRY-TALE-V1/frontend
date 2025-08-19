@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- 배경 원 -->
+  <circle cx="200" cy="200" r="190" fill="url(#bookGradient)" stroke="#E5E7EB" stroke-width="4"/>
+  
+  <!-- 그라디언트 정의 -->
+  <defs>
+    <linearGradient id="bookGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.1" />
+      <stop offset="50%" style="stop-color:#EC4899;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:0.1" />
+    </linearGradient>
+    <linearGradient id="bookCover" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6" />
+      <stop offset="50%" style="stop-color:#EC4899" />
+      <stop offset="100%" style="stop-color:#F59E0B" />
+    </linearGradient>
+    <linearGradient id="pageGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FEFCE8" />
+      <stop offset="100%" style="stop-color:#FEF3C7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 동화책 -->
+  <g transform="translate(200, 200)">
+    <!-- 책 그림자 -->
+    <ellipse cx="2" cy="45" rx="85" ry="15" fill="#000" opacity="0.1"/>
+    
+    <!-- 책 표지 -->
+    <rect x="-80" y="-50" width="160" height="100" rx="8" ry="8" fill="url(#bookCover)" stroke="#7C3AED" stroke-width="2"/>
+    
+    <!-- 책 페이지들 -->
+    <rect x="-75" y="-45" width="150" height="90" rx="6" ry="6" fill="url(#pageGradient)" stroke="#F3F4F6" stroke-width="1"/>
+    <rect x="-70" y="-40" width="140" height="80" rx="4" ry="4" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+    
+    <!-- 책 제목 장식 -->
+    <rect x="-60" y="-35" width="120" height="4" rx="2" fill="#8B5CF6" opacity="0.3"/>
+    <rect x="-50" y="-25" width="100" height="3" rx="1.5" fill="#EC4899" opacity="0.3"/>
+    <rect x="-45" y="-15" width="90" height="3" rx="1.5" fill="#F59E0B" opacity="0.3"/>
+    
+    <!-- 마법 반짝이 효과 -->
+    <g opacity="0.8">
+      <!-- 큰 별 -->
+      <path d="M-100,-30 L-95,-20 L-85,-25 L-95,-10 L-100,0 L-105,-10 L-115,-25 L-105,-20 Z" fill="#FFD700"/>
+      <path d="M110,-20 L115,-10 L125,-15 L115,0 L110,10 L105,0 L95,-15 L105,-10 Z" fill="#FFD700"/>
+      
+      <!-- 작은 별들 -->
+      <circle cx="-90" cy="60" r="3" fill="#FDE047"/>
+      <circle cx="95" cy="65" r="2.5" fill="#FDE047"/>
+      <circle cx="-110" cy="20" r="2" fill="#F97316"/>
+      <circle cx="100" cy="30" r="2" fill="#F97316"/>
+      
+      <!-- 반짝이는 점들 -->
+      <circle cx="-85" cy="-60" r="1.5" fill="#EC4899"/>
+      <circle cx="90" cy="-55" r="1" fill="#8B5CF6"/>
+      <circle cx="-95" cy="80" r="1" fill="#06B6D4"/>
+      <circle cx="105" cy="75" r="1.5" fill="#06B6D4"/>
+    </g>
+    
+    <!-- 페이지 내용 (텍스트 라인들) -->
+    <g opacity="0.4">
+      <rect x="-55" y="-5" width="50" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="-55" y="0" width="70" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="-55" y="5" width="45" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="-55" y="10" width="65" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="-55" y="15" width="40" height="1.5" rx="0.75" fill="#6B7280"/>
+      
+      <rect x="15" y="-5" width="35" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="15" y="0" width="45" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="15" y="5" width="30" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="15" y="10" width="40" height="1.5" rx="0.75" fill="#6B7280"/>
+      <rect x="15" y="15" width="25" height="1.5" rx="0.75" fill="#6B7280"/>
+    </g>
+    
+    <!-- 책 중앙 바인딩 라인 -->
+    <line x1="0" y1="-45" x2="0" y2="45" stroke="#E5E7EB" stroke-width="2"/>
+    
+    <!-- 마법 지팡이 (선택적 장식) -->
+    <g transform="translate(60, -70) rotate(15)" opacity="0.7">
+      <rect x="-1" y="0" width="2" height="25" fill="#8B4513"/>
+      <circle cx="0" cy="-2" r="4" fill="#FFD700"/>
+      <path d="M-3,-6 L3,-6 L0,-12 Z" fill="#FFD700"/>
+    </g>
+  </g>
+</svg>

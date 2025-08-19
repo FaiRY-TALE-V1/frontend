@@ -14,70 +14,64 @@ interface ProfileData {
   name: string;
   age: number;
   gender: "boy" | "girl";
-  photos: string[];
+  photo: string; // 단일 사진으로 변경 (Qwen 요구사항)
 }
 
 interface ErrorData {
   name?: string;
-  photos?: string;
+  photo?: string;
 }
 
-const ProfilePage = () => {
+const MainForm = () => {
   const [profile, setProfile] = useState<ProfileData>({
     name: "",
     age: 5,
     gender: "boy",
-    photos: [],
+    photo: "",
   });
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [previewImage, setPreviewImage] = useState<string>("");
   const [errors, setErrors] = useState<ErrorData>({});
   const [isUploading, setIsUploading] = useState(false);
 
-  // 사진 업로드 처리
+  // 사진 업로드 처리 (단일 사진)
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
+    const file = event.target.files?.[0];
+    if (!file) return;
+
     setIsUploading(true);
 
-    if (previewImages.length + files.length > 5) {
-      setErrors({ ...errors, photos: "최대 5장까지 업로드 가능합니다." });
+    if (!file.type.startsWith("image/")) {
+      setErrors({ ...errors, photo: "이미지 파일만 업로드 가능합니다." });
       setIsUploading(false);
       return;
     }
 
-    files.forEach((file: File) => {
-      if (!file.type.startsWith("image/")) {
-        setErrors({ ...errors, photos: "이미지 파일만 업로드 가능합니다." });
-        setIsUploading(false);
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64 = reader.result as string;
-        setPreviewImages((prev) => [...prev, base64]);
-        setProfile((prev) => ({
-          ...prev,
-          photos: [...prev.photos, base64],
-        }));
-        setIsUploading(false);
-      };
-      reader.readAsDataURL(file);
-    });
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result as string;
+      setPreviewImage(base64);
+      setProfile((prev) => ({
+        ...prev,
+        photo: base64,
+      }));
+      setIsUploading(false);
+    };
+    reader.readAsDataURL(file);
 
     // 에러 클리어
-    if (errors.photos) {
+    if (errors.photo) {
       const newErrors = { ...errors };
-      delete newErrors.photos;
+      delete newErrors.photo;
       setErrors(newErrors);
     }
   };
 
   // 사진 삭제
-  const removePhoto = (index: number) => {
-    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+  const removePhoto = () => {
+    setPreviewImage("");
     setProfile((prev) => ({
       ...prev,
-      photos: prev.photos.filter((_, i) => i !== index),
+      photo: "",
     }));
   };
 
@@ -99,9 +93,12 @@ const ProfilePage = () => {
   const handleNext = () => {
     if (!validateForm()) return;
 
-    // 실제 서비스에서는 API 호출
+    // localStorage에 프로필 저장
+    localStorage.setItem("childProfile", JSON.stringify(profile));
     console.log("프로필 저장:", profile);
-    alert("프로필이 저장되었습니다! 다음 단계로 진행합니다.");
+
+    // 테마 페이지로 이동
+    window.location.href = "/theme";
   };
 
   const ageEmojis: { [key: number]: string } = {
@@ -113,10 +110,13 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen">
       {/* 헤더 */}
       <div className="relative px-4 py-6 bg-white shadow-sm">
-        <button className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100">
+        <button
+          onClick={() => (window.location.href = "/")}
+          className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
+        >
           <ChevronLeft className="w-5 h-5 text-gray-600" />
         </button>
         <div className="text-center">
@@ -279,7 +279,7 @@ const ProfilePage = () => {
               </div>
             </div>
 
-            {/* 사진 업로드 */}
+            {/* 사진 업로드 (단일 사진) */}
             <div className="space-y-4">
               <label className="flex items-center text-lg font-semibold text-gray-800">
                 <div className="flex items-center justify-center w-6 h-6 mr-3 bg-green-100 rounded-full">
@@ -289,29 +289,27 @@ const ProfilePage = () => {
               </label>
               <p className="p-4 text-gray-600 rounded-lg bg-blue-50">
                 💡 아이의 특징을 담은 사진을 업로드하면 더욱 닮은 캐릭터로
-                동화를 만들어드려요 (최대 5장)
+                동화를 만들어드려요 (1장)
               </p>
 
               {/* 사진 미리보기 */}
-              {previewImages.length > 0 && (
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  {previewImages.map((image, index) => (
-                    <div key={index} className="relative group aspect-square">
-                      <img
-                        src={image}
-                        alt={`Preview ${index + 1}`}
-                        className="object-cover w-full h-full border-gray-200 shadow-md border-3 rounded-xl"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center transition-all duration-200 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded-xl">
-                        <button
-                          onClick={() => removePhoto(index)}
-                          className="p-2 text-white transition-all duration-200 transform bg-red-500 rounded-full opacity-0 group-hover:opacity-100 hover:bg-red-600 hover:scale-110"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
+              {previewImage && (
+                <div className="mb-6">
+                  <div className="relative max-w-xs mx-auto group aspect-square">
+                    <img
+                      src={previewImage}
+                      alt="Preview"
+                      className="object-cover w-full h-full border-gray-200 shadow-md border-3 rounded-xl"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center transition-all duration-200 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded-xl">
+                      <button
+                        onClick={removePhoto}
+                        className="p-2 text-white transition-all duration-200 transform bg-red-500 rounded-full opacity-0 group-hover:opacity-100 hover:bg-red-600 hover:scale-110"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
                     </div>
-                  ))}
+                  </div>
                 </div>
               )}
 
@@ -320,16 +318,15 @@ const ProfilePage = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  multiple
                   onChange={handlePhotoUpload}
                   className="hidden"
                   id="photo-upload"
-                  disabled={previewImages.length >= 5}
+                  disabled={!!previewImage}
                 />
                 <label
                   htmlFor="photo-upload"
                   className={`block transition-all duration-200 ${
-                    previewImages.length >= 5
+                    previewImage
                       ? "opacity-50 cursor-not-allowed"
                       : "cursor-pointer"
                   }`}
@@ -338,7 +335,7 @@ const ProfilePage = () => {
                     className={`flex flex-col items-center justify-center p-12 border-2 border-dashed rounded-xl transition-all duration-200 ${
                       isUploading
                         ? "border-blue-500 bg-blue-50"
-                        : previewImages.length >= 5
+                        : previewImage
                         ? "border-gray-200 bg-gray-50"
                         : "border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-blue-50"
                     }`}
@@ -349,23 +346,21 @@ const ProfilePage = () => {
                       <Upload className="w-12 h-12 mb-4 text-gray-400" />
                     )}
                     <p className="text-lg font-semibold text-gray-700">
-                      {previewImages.length >= 5
-                        ? "사진 업로드 완료"
-                        : "사진 선택하기"}
+                      {previewImage ? "사진 업로드 완료" : "사진 선택하기"}
                     </p>
                     <p className="mt-2 text-gray-500">
-                      {previewImages.length >= 5
-                        ? "최대 5장까지 업로드됨"
-                        : `JPG, PNG 파일 (${previewImages.length}/5장)`}
+                      {previewImage
+                        ? "더 나은 캐릭터 생성을 위해 1장의 사진을 사용합니다"
+                        : "JPG, PNG 파일"}
                     </p>
                   </div>
                 </label>
               </div>
 
-              {errors.photos && (
+              {errors.photo && (
                 <div className="flex items-center text-sm text-red-500">
                   <X className="w-4 h-4 mr-1" />
-                  {errors.photos}
+                  {errors.photo}
                 </div>
               )}
             </div>
@@ -373,7 +368,10 @@ const ProfilePage = () => {
 
           {/* 버튼 영역 */}
           <div className="flex items-center justify-between pt-6 mt-8">
-            <button className="px-6 py-3 font-medium text-gray-600 transition-colors rounded-xl hover:bg-gray-100">
+            <button
+              onClick={() => (window.location.href = "/")}
+              className="px-6 py-3 font-medium text-gray-600 transition-colors rounded-xl hover:bg-gray-100"
+            >
               이전
             </button>
 
@@ -402,4 +400,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default MainForm;

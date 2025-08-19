@@ -3,19 +3,15 @@ import {
   Sparkles,
   Heart,
   BookOpen,
-  Users,
   Star,
   ChevronDown,
   Play,
   Check,
   ArrowRight,
-  Zap,
   Shield,
-  Clock,
 } from "lucide-react";
 
-const FairyTaleLanding = () => {
-  const [isVisible, setIsVisible] = useState({});
+const HomeForm = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const features = [
@@ -27,7 +23,7 @@ const FairyTaleLanding = () => {
       color: "from-pink-500 to-rose-500",
     },
     {
-      icon: <Zap className="w-8 h-8" />,
+      icon: <Sparkles className="w-8 h-8" />,
       title: "AI 창작 엔진",
       description: "최신 생성형 AI가 만드는 창의적이고 교육적인 스토리텔링",
       color: "from-blue-500 to-cyan-500",
@@ -80,21 +76,14 @@ const FairyTaleLanding = () => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(to bottom right, #f8fafc, #dbeafe, #e0e7ff)",
-      }}
-      className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
-    >
+    <div className="min-h-screen">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b bg-white/80 backdrop-blur-lg border-gray-200/20">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -127,7 +116,10 @@ const FairyTaleLanding = () => {
                 요금제
               </button>
             </div>
-            <button className="px-6 py-2 text-white transition-all duration-300 transform rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg hover:scale-105">
+            <button
+              onClick={() => (window.location.href = "/main")}
+              className="px-6 py-2 text-white transition-all duration-300 transform rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg hover:scale-105"
+            >
               시작하기
             </button>
           </div>
@@ -161,13 +153,20 @@ const FairyTaleLanding = () => {
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row">
-                <button className="flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 transform group bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl hover:shadow-2xl hover:scale-105">
+                <button
+                  onClick={() => (window.location.href = "/main")}
+                  className="flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 transform group bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl hover:shadow-2xl hover:scale-105"
+                >
                   <Play className="w-5 h-5 mr-2 transition-transform group-hover:translate-x-1" />
                   무료로 시작하기
                 </button>
-                <button className="flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-700 transition-all duration-300 border-2 border-gray-300 rounded-2xl hover:border-purple-300 hover:text-purple-600">
-                  <BookOpen className="w-5 h-5 mr-2" />
-                  샘플 동화 보기
+
+                <button
+                  onClick={() => (window.location.href = "/test")}
+                  className="flex items-center justify-center px-6 py-3 text-base font-semibold text-blue-700 transition-all duration-300 border-2 border-blue-300 rounded-2xl hover:border-blue-500 hover:text-blue-800"
+                >
+                  <Shield className="w-4 h-4 mr-2" />
+                  백엔드 연결 테스트
                 </button>
               </div>
 
@@ -446,7 +445,10 @@ const FairyTaleLanding = () => {
                   <span>PDF 다운로드</span>
                 </li>
               </ul>
-              <button className="w-full py-3 font-semibold text-purple-600 transition-colors border-2 border-purple-600 rounded-2xl hover:bg-purple-50">
+              <button
+                onClick={() => (window.location.href = "/main")}
+                className="w-full py-3 font-semibold text-purple-600 transition-colors border-2 border-purple-600 rounded-2xl hover:bg-purple-50"
+              >
                 무료로 시작하기
               </button>
             </div>
@@ -515,7 +517,10 @@ const FairyTaleLanding = () => {
             단 몇 분만에 평생 간직할 소중한 추억을 만들어보세요
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <button className="flex items-center justify-center px-10 py-4 text-lg font-bold text-purple-600 transition-all duration-300 transform bg-white rounded-2xl hover:shadow-2xl hover:scale-105">
+            <button
+              onClick={() => (window.location.href = "/main")}
+              className="flex items-center justify-center px-10 py-4 text-lg font-bold text-purple-600 transition-all duration-300 transform bg-white rounded-2xl hover:shadow-2xl hover:scale-105"
+            >
               <Sparkles className="w-5 h-5 mr-2" />
               무료로 시작하기
             </button>
@@ -558,24 +563,24 @@ const FairyTaleLanding = () => {
               <h4 className="mb-4 font-semibold">서비스</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     동화 생성
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     템플릿
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     일러스트
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     API
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -584,24 +589,24 @@ const FairyTaleLanding = () => {
               <h4 className="mb-4 font-semibold">지원</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     도움말
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     문의하기
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     FAQ
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="transition-colors hover:text-white">
+                  <button className="transition-colors hover:text-white">
                     개인정보처리방침
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -616,4 +621,4 @@ const FairyTaleLanding = () => {
   );
 };
 
-export default FairyTaleLanding;
+export default HomeForm;

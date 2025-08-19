@@ -2,7 +2,7 @@ export interface ChildProfile {
   name: string;
   age: number;
   gender: "boy" | "girl";
-  photos: string[]; // 다중 사진 업로드를 위한 배열
+  photo: string; // Qwen은 한 장의 사진으로 캐릭터 생성
 }
 
 export interface Theme {
@@ -15,15 +15,17 @@ export interface Theme {
 
 export interface StoryScene {
   scene_number: number;
-  text: string;
+  content: string;
+  image_description: string;
   image_url?: string;
   audio_url?: string;
+  narration: string;
 }
 
 export interface Story {
   title: string;
+  moral: string;
   scenes: StoryScene[];
-  total_scenes: number;
 }
 
 export interface StoryRequest {
@@ -32,12 +34,6 @@ export interface StoryRequest {
 }
 
 export interface CompleteStoryResponse {
-  title: string;
-  scenes: {
-    scene_number: number;
-    text: string;
-    image_url: string;
-    audio_url: string;
-  }[];
-  total_scenes: number;
+  story: Story;
+  character_image_url: string; // AI가 생성한 캐릭터 이미지
 }
