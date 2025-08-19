@@ -8,7 +8,6 @@ import {
   Play,
   Check,
   ArrowRight,
-  Shield,
 } from "lucide-react";
 
 const HomeForm = () => {
@@ -159,14 +158,6 @@ const HomeForm = () => {
                 >
                   <Play className="w-5 h-5 mr-2 transition-transform group-hover:translate-x-1" />
                   무료로 시작하기
-                </button>
-
-                <button
-                  onClick={() => (window.location.href = "/test")}
-                  className="flex items-center justify-center px-6 py-3 text-base font-semibold text-blue-700 transition-all duration-300 border-2 border-blue-300 rounded-2xl hover:border-blue-500 hover:text-blue-800"
-                >
-                  <Shield className="w-4 h-4 mr-2" />
-                  백엔드 연결 테스트
                 </button>
               </div>
 

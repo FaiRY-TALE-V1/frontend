@@ -1,6 +1,5 @@
 import React from "react";
 import "../index.css";
-import DebugInfo from "../components/ui/DebugInfo";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,9 +16,6 @@ export default function RootLayout({ children }: LayoutProps) {
 
       {/* 글로벌 스크립트 */}
       <div id="modal-root" />
-
-      {/* 개발용 디버그 정보 */}
-      <DebugInfo />
     </div>
   );
 }
