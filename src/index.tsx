@@ -8,12 +8,13 @@ import {
 } from "react-router-dom";
 import "./index.css";
 
-// App Router 스타일 컴포넌트 import
-import RootLayout from "./app/layout";
-import HomePage from "./app/home/page";
-import MainPage from "./app/main/page";
-import ThemePage from "./app/theme/page";
-import FairytaleePage from "./app/fairytale/page";
+// 컴포넌트 import
+import RootLayout from "./components/layout/RootLayout";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import ThemeSelection from "./pages/ThemeSelection";
+import StoryGeneration from "./pages/StoryGeneration";
+import { AppProvider } from "./context/AppContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -21,16 +22,18 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <RootLayout>
+    <AppProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/main" element={<MainPage />} />
-          <Route path="/theme" element={<ThemePage />} />
-          <Route path="/fairytale" element={<FairytaleePage />} />
-        </Routes>
+        <RootLayout>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/theme" element={<ThemeSelection />} />
+            <Route path="/story" element={<StoryGeneration />} />
+          </Routes>
+        </RootLayout>
       </Router>
-    </RootLayout>
+    </AppProvider>
   </React.StrictMode>
 );
