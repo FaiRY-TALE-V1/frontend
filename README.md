@@ -1,46 +1,249 @@
-# Getting Started with Create React App
+# 🌟 FaiRY TALE - AI 기반 개인화 동화책 서비스
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **세상에 단 하나뿐인 우리 아이만의 특별한 이야기**
 
-## Available Scripts
+[![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4+-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📖 프로젝트 소개
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**FaiRY TALE**은 최첨단 AI 기술을 활용하여 아이의 이름, 나이, 성격, 관심사를 반영한 완전히 개인화된 동화책을 생성하는 혁신적인 서비스입니다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### ✨ 핵심 가치
+- 🎯 **개인화**: 아이의 특성을 반영한 맞춤형 스토리
+- 📚 **교육성**: 10가지 교훈을 담은 의미 있는 이야기  
+- 🎨 **몰입감**: 아름다운 삽화와 오디오가 함께하는 멀티미디어 경험
+- 💝 **특별함**: 세상에 단 하나뿐인 우리 아이만의 동화책
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 주요 기능
 
-### `npm run build`
+### 🌈 현대적인 사용자 경험
+- **세련된 랜딩페이지** - 실제 서비스 수준의 전문적인 디자인
+- **직관적인 프로필 입력** - 아이의 정보를 쉽고 재미있게 입력
+- **인터랙티브 테마 선택** - 10가지 교육적 주제 중 선택
+- **몰입형 동화 읽기** - 삽화, 텍스트, 오디오가 조화된 경험
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🎨 10가지 교육 테마
+| 테마 | 내용 | 교훈 |
+|------|------|------|
+| 🥕 식습관 개선 | 편식하지 않는 건강한 습관 | 균형 잡힌 영양 섭취의 중요성 |
+| 💰 경제관념 | 용돈 관리와 저축 습관 | 계획적인 소비와 저축의 가치 |
+| 🤝 교우관계 | 친구 사귀기와 갈등 해결 | 우정과 소통의 소중함 |
+| 🦷 위생습관 | 양치질과 개인위생 | 청결한 생활의 중요성 |
+| 🌍 환경보호 | 지구를 아끼는 실천 | 환경 보호의 필요성 |
+| 💝 감정표현 | 감정 이해와 공감 | 마음을 표현하고 이해하기 |
+| ⭐ 책임감 | 자기 주도적 생활 | 독립심과 책임감 기르기 |
+| 🌈 다양성 존중 | 차이 인정과 포용 | 다름을 인정하는 마음 |
+| 🛡️ 안전습관 | 일상 속 안전 수칙 | 안전한 생활 습관 |
+| 🎨 창의력 | 상상력과 표현력 | 창의적 사고의 힘 |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ 기술 스택
 
-### `npm run eject`
+### Frontend Core
+- **React 18+** - 최신 리액트 기능 활용
+- **TypeScript** - 완전한 타입 안전성
+- **React Router DOM** - 페이지 라우팅
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Styling & UI
+- **Tailwind CSS 3.4+** - 유틸리티 퍼스트 CSS 프레임워크
+- **shadcn/ui** - 고품질 재사용 가능한 컴포넌트
+- **Framer Motion** - 부드러운 애니메이션
+- **Lucide React** - 아름다운 아이콘 라이브러리
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Development Tools
+- **Create React App** - 안정적인 React 개발 환경
+- **PostCSS** - CSS 후처리
+- **ESLint & Prettier** - 코드 품질 관리
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 📁 프로젝트 구조
 
-## Learn More
+```
+frontend/
+├── 📂 public/                 # 정적 파일
+│   ├── 🖼️ favicon.ico         # 파비콘
+│   └── 📄 index.html          # HTML 템플릿
+├── 📂 src/
+│   ├── 📂 components/         # 재사용 가능한 컴포넌트
+│   │   └── 📂 ui/             # shadcn/ui 컴포넌트
+│   │       ├── 🎴 Card.tsx    # 카드 컴포넌트
+│   │       ├── 📋 Accordion.tsx # 아코디언 컴포넌트
+│   │       └── 🔘 Button.tsx   # 버튼 컴포넌트
+│   ├── 📂 pages/              # 페이지 컴포넌트
+│   │   ├── 🏠 LandingPage.tsx  # 메인 랜딩페이지
+│   │   ├── 👤 ProfilePage.tsx  # 프로필 입력 페이지
+│   │   ├── 🎨 ThemePage.tsx    # 테마 선택 페이지
+│   │   └── 📖 Fairytale.tsx    # 동화 읽기 페이지
+│   ├── 📂 services/           # API 서비스
+│   │   └── 🔗 api.ts          # API 호출 함수
+│   ├── 📂 types/              # TypeScript 타입 정의
+│   │   └── 📋 index.ts        # 공통 타입 정의
+│   ├── 📂 utils/              # 유틸리티 함수
+│   │   └── 🛠️ cn.ts           # 클래스명 유틸리티
+│   ├── 🎨 index.css           # 글로벌 스타일
+│   ├── 📱 App.tsx             # 메인 앱 컴포넌트
+│   └── 🚀 index.tsx           # 앱 진입점
+├── 📋 package.json            # 프로젝트 설정
+├── ⚙️ tailwind.config.js      # Tailwind 설정
+├── 🔧 postcss.config.js       # PostCSS 설정
+└── 📖 README.md               # 프로젝트 문서
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🎯 페이지별 상세 기능
+
+### 🏠 랜딩페이지 (`/`)
+- **현대적인 히어로 섹션** - 서비스 소개와 주요 가치 제안
+- **인터랙티브 기능 소개** - 애니메이션과 함께하는 기능 설명
+- **사용자 후기** - 실제 이용자들의 생생한 후기
+- **3단계 이용 과정** - 간단한 서비스 이용 가이드
+- **요금제 안내** - 무료/프리미엄/패밀리 플랜
+
+### 👤 프로필페이지 (`/main`)
+- **아이 이름 입력** - 동화 주인공 이름 설정
+- **나이 선택** - 3-7세 연령대별 맞춤 설정
+- **성별 선택** - 남자아이/여자아이 캐릭터 구분
+- **사진 업로드** - 최대 5장, 더 닮은 캐릭터 생성 (선택사항)
+
+### 🎨 테마페이지 (`/theme`)
+- **10가지 교육 테마** - 다양한 교훈을 담은 주제 선택
+- **상세 설명** - 각 테마별 스토리 예시와 교육 효과
+- **인터랙티브 카드** - 호버 시 상세 정보 표시
+- **선택 피드백** - 선택한 테마 요약 정보
+
+### 📖 동화페이지 (`/fairytale`)
+- **몰입형 레이아웃** - 삽화와 텍스트 분할 화면
+- **오디오 재생** - 전문 성우의 내레이션 (시뮬레이션)
+- **키보드 네비게이션** - ←/→ 페이지 이동, 스페이스바 오디오 재생
+- **진행률 표시** - 현재 읽고 있는 위치 시각화
+- **자동재생 모드** - 편리한 연속 재생 기능
+
+---
+
+## 🚀 시작하기
+
+### 📋 사전 요구사항
+- **Node.js** 18.0.0 이상
+- **npm** 또는 **yarn** 패키지 매니저
+
+### ⚡ 빠른 설치 및 실행
+
+```bash
+# 저장소 클론
+git clone https://github.com/FaiRY-TALE-V1/frontend.git
+cd frontend
+
+# 의존성 설치
+npm install
+
+# 개발 서버 시작
+npm start
+```
+
+### 🌐 접속 URL
+- **개발 서버**: http://localhost:3000
+- **랜딩페이지**: http://localhost:3000/
+- **프로필 입력**: http://localhost:3000/main
+- **테마 선택**: http://localhost:3000/theme
+- **동화 읽기**: http://localhost:3000/fairytale
+
+---
+
+## 📦 사용 가능한 스크립트
+
+```bash
+# 개발 서버 시작
+npm start
+
+# 프로덕션 빌드
+npm run build
+
+# 테스트 실행
+npm test
+
+# 린팅 검사
+npm run lint
+
+# 타입 검사
+npm run type-check
+```
+
+---
+
+## 🎨 디자인 시스템
+
+### 🎨 컬러 팔레트
+- **Primary**: Purple & Pink 그라데이션
+- **Secondary**: Blue & Cyan 그라데이션  
+- **Accent**: Orange & Yellow 그라데이션
+- **Neutral**: Gray 스케일
+
+### 📐 타이포그래피
+- **Primary Font**: Comfortaa (부드럽고 친근한 느낌)
+- **UI Elements**: System fonts (최적의 가독성)
+
+### 🎪 애니메이션
+- **Hover Effects**: Scale, shadow, color transitions
+- **Page Transitions**: Fade in/out, slide animations
+- **Loading States**: Smooth progress indicators
+
+---
+
+## 🤝 기여하기
+
+FaiRY TALE 프로젝트에 기여해주셔서 감사합니다! 
+
+### 🔄 개발 워크플로우
+1. **Fork** 저장소를 본인 계정으로 포크
+2. **Branch** 새로운 기능 브랜치 생성 (`git checkout -b feature/amazing-feature`)
+3. **Commit** 의미 있는 커밋 메시지 작성 (`git commit -m 'feat: Add amazing feature'`)
+4. **Push** 브랜치에 푸시 (`git push origin feature/amazing-feature`)
+5. **Pull Request** 생성
+
+### 📝 커밋 컨벤션
+- `feat:` 새로운 기능
+- `fix:` 버그 수정
+- `docs:` 문서 업데이트
+- `style:` 코드 스타일 변경
+- `refactor:` 코드 리팩토링
+- `test:` 테스트 추가/수정
+
+---
+
+## 📄 라이선스
+
+이 프로젝트는 **MIT 라이선스** 하에 배포됩니다. 자세한 내용은 [LICENSE](./LICENSE) 파일을 참조하세요.
+
+---
+
+## 📞 문의 및 지원
+
+- **Issue 등록**: [GitHub Issues](https://github.com/FaiRY-TALE-V1/frontend/issues)
+- **토론 참여**: [GitHub Discussions](https://github.com/FaiRY-TALE-V1/frontend/discussions)
+
+---
+
+<div align="center">
+
+### 🌟 함께 만들어가는 특별한 동화의 세상 🌟
+
+**FaiRY TALE**과 함께 아이들의 상상력과 꿈을 키워보세요!
+
+[![⭐ Star this repo](https://img.shields.io/badge/⭐-Star_this_repo-blue?style=for-the-badge)](https://github.com/FaiRY-TALE-V1/frontend)
+[![🍴 Fork this repo](https://img.shields.io/badge/🍴-Fork_this_repo-green?style=for-the-badge)](https://github.com/FaiRY-TALE-V1/frontend/fork)
+
+---
+
+Made with ❤️ by **FaiRY TALE Team**
+
+</div>
