@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Sparkles, Star, Play, ArrowRight, Menu, X } from "lucide-react";
 
 const Home = () => {
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -14,13 +12,19 @@ const Home = () => {
   }, []);
 
   const handleStartClick = () => {
-    navigate("/profile");
+    console.log("동화 만들기 시작");
   };
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b border-gray-200 shadow-sm">
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrollY > 20
+            ? "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm"
+            : "bg-transparent"
+        }`}
+      >
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-3">
@@ -154,7 +158,7 @@ const Home = () => {
                 <div className="relative p-6 bg-white border border-gray-200 shadow-2xl rounded-3xl">
                   <div className="overflow-hidden rounded-2xl">
                     <img
-                      src="/lion-family.png"
+                      src="public/lion-family.png"
                       alt="FaiRY TALE 동화책 미리보기"
                       className="object-cover w-full h-80"
                       style={{
@@ -167,13 +171,12 @@ const Home = () => {
                         fontWeight: "500",
                       }}
                       onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.background =
+                        e.target.style.background =
                           "linear-gradient(45deg, #fef3c7, #fed7aa)";
-                        target.innerHTML = "🦁 라이온 가족 동화";
-                        target.style.display = "flex";
-                        target.style.alignItems = "center";
-                        target.style.justifyContent = "center";
+                        e.target.innerHTML = "🦁 라이온 가족 동화";
+                        e.target.style.display = "flex";
+                        e.target.style.alignItems = "center";
+                        e.target.style.justifyContent = "center";
                       }}
                     />
                   </div>
@@ -183,20 +186,17 @@ const Home = () => {
           </div>
         </div>
 
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-             @keyframes float {
-               0%, 100% {
-                 transform: translateY(0px);
-               }
-               50% {
-                 transform: translateY(-10px);
-               }
-             }
-           `,
-          }}
-        />
+        <style jsx>{`
+          @keyframes float {
+            0%,
+            100% {
+              transform: translateY(0px);
+            }
+            50% {
+              transform: translateY(-10px);
+            }
+          }
+        `}</style>
       </section>
 
       {/* How it works */}
@@ -365,7 +365,7 @@ const Home = () => {
             </div>
 
             <div className="w-full pt-8 text-sm text-center text-gray-400 border-t border-gray-800">
-              <p>&copy; 2025 FaiRY TALE. All rights reserved.</p>
+              <p>&copy; 2024 FaiRY TALE. All rights reserved.</p>
             </div>
           </div>
         </div>

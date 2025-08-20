@@ -3,7 +3,7 @@ import { ApiResponse } from "../types";
 
 // API 클라이언트 설정
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-const API_TIMEOUT = 300000; // 5분 (300,000ms)
+const API_TIMEOUT = 600000; // 10분 (600,000ms) - 동화 생성은 시간이 오래 걸림
 
 export class ApiClient {
   private client: AxiosInstance;
@@ -95,7 +95,7 @@ export class ApiClient {
     } else if (axiosError.request) {
       if (axiosError.code === "ECONNABORTED") {
         throw new Error(
-          "요청 시간이 초과되었습니다. 네트워크 연결을 확인해주세요."
+          "동화 생성 시간이 초과되었습니다. 서버가 바쁘거나 네트워크가 불안정할 수 있습니다. 잠시 후 다시 시도해주세요."
         );
       }
       throw new Error(

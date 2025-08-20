@@ -365,7 +365,7 @@ const Home = () => {
             </div>
 
             <div className="w-full pt-8 text-sm text-center text-gray-400 border-t border-gray-800">
-              <p>&copy; 2025 FaiRY TALE. All rights reserved.</p>
+              <p>&copy; 2024 FaiRY TALE. All rights reserved.</p>
             </div>
           </div>
         </div>

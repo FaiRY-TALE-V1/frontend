@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Sparkles, Star, Play, ArrowRight, Menu, X } from "lucide-react";
 
 const Home = () => {
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -14,13 +13,19 @@ const Home = () => {
   }, []);
 
   const handleStartClick = () => {
-    navigate("/profile");
+    console.log("동화 만들기 시작");
   };
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b border-gray-200 shadow-sm">
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrollY > 20
+            ? "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm"
+            : "bg-transparent"
+        }`}
+      >
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-3">
@@ -365,7 +370,7 @@ const Home = () => {
             </div>
 
             <div className="w-full pt-8 text-sm text-center text-gray-400 border-t border-gray-800">
-              <p>&copy; 2025 FaiRY TALE. All rights reserved.</p>
+              <p>&copy; 2024 FaiRY TALE. All rights reserved.</p>
             </div>
           </div>
         </div>

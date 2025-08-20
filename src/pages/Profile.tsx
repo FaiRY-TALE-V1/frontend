@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
+import { apiService } from "../services/api";
 import {
   User,
   Calendar,
@@ -58,7 +59,7 @@ const Profile = () => {
     }
   }, [state.childProfile]);
 
-  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -70,17 +71,27 @@ const Profile = () => {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = reader.result as string;
-      setPreviewImage(base64);
-      setProfile((prev) => ({
-        ...prev,
-        photo: base64,
-      }));
+    try {
+      // 백엔드 API를 사용한 파일 업로드
+      const uploadResponse = await apiService.uploadPhoto(file);
+      
+      if (uploadResponse.success && uploadResponse.data) {
+        const imageUrl = uploadResponse.data.image_url;
+        setPreviewImage(imageUrl);
+        setProfile((prev) => ({
+          ...prev,
+          photo: imageUrl,
+        }));
+        console.log("사진 업로드 성공:", uploadResponse.message);
+      } else {
+        throw new Error(uploadResponse.error || "업로드 실패");
+      }
+    } catch (error: any) {
+      console.error("사진 업로드 실패:", error);
+      setErrors({ ...errors, photo: error.message || "사진 업로드 중 오류가 발생했습니다." });
+    } finally {
       setIsUploading(false);
-    };
-    reader.readAsDataURL(file);
+    }
 
     if (errors.photo) {
       const newErrors = { ...errors };
