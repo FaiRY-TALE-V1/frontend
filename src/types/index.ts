@@ -34,17 +34,15 @@ export interface Theme {
 // 스토리 장면 인터페이스
 export interface StoryScene {
   scene_number: number;
-  content: string;
-  image_description: string;
+  text: string;
   image_url?: string;
   audio_url?: string;
-  narration: string;
+  image_prompt?: string;
 }
 
 // 스토리 인터페이스
 export interface Story {
   title: string;
-  moral: string;
   scenes: StoryScene[];
 }
 
@@ -56,7 +54,8 @@ export interface StoryRequest {
 
 export interface CompleteStoryResponse {
   story: Story;
-  character_image_url: string;
+  character_image: string;
+  total_scenes: number;
 }
 
 // UI 관련 인터페이스

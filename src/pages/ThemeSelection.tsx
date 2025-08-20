@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAppContext } from "../context/AppContext";
+import { apiService } from "../services/api";
 import {
   Sparkles,
   BookOpen,
@@ -96,25 +98,71 @@ const themes = [
 
 const ThemeSelection = () => {
   const navigate = useNavigate();
+  const { state, setSelectedTheme: setAppSelectedTheme, canProceedToTheme } = useAppContext();
   const [selectedTheme, setSelectedTheme] = useState("");
-  const [childProfile, setChildProfile] = useState<{ name: string } | null>(
-    null
-  );
+  const [childProfile, setChildProfile] = useState<{ name: string } | null>(null);
   const [hoveredTheme, setHoveredTheme] = useState("");
+  const [apiThemes, setApiThemes] = useState<any[]>([]);
+  const [isLoadingThemes, setIsLoadingThemes] = useState(true);
 
   useEffect(() => {
-    const savedProfile = localStorage.getItem("childProfile");
-    if (savedProfile) {
-      try {
-        const profile = JSON.parse(savedProfile);
-        setChildProfile(profile);
-      } catch (error) {
-        console.error("프로필 파싱 오류:", error);
-        setChildProfile({ name: "아이" });
-      }
-    } else {
-      setChildProfile({ name: "아이" });
+    if (!canProceedToTheme) {
+      navigate("/profile");
+      return;
     }
+
+    if (state.childProfile) {
+      setChildProfile(state.childProfile);
+    } else {
+      const savedProfile = localStorage.getItem("childProfile");
+      if (savedProfile) {
+        try {
+          const profile = JSON.parse(savedProfile);
+          setChildProfile(profile);
+        } catch (error) {
+          console.error("프로필 파싱 오류:", error);
+          navigate("/profile");
+          return;
+        }
+      } else {
+        navigate("/profile");
+        return;
+      }
+    }
+
+    if (state.selectedTheme) {
+      setSelectedTheme(state.selectedTheme);
+    }
+  }, [state, navigate, canProceedToTheme]);
+
+  // API에서 테마 가져오기
+  useEffect(() => {
+    const fetchThemes = async () => {
+      try {
+        setIsLoadingThemes(true);
+        console.log("테마 API 호출 시작...");
+        
+        const response = await apiService.getThemes();
+        console.log("테마 API 응답:", response);
+        
+        if (response.success && response.data?.themes) {
+          console.log("API 테마 사용:", response.data.themes);
+          setApiThemes(response.data.themes);
+        } else {
+          console.warn("API 테마 로드 실패, 기본 테마 사용");
+          setApiThemes(themes);
+        }
+      } catch (error) {
+        console.error("테마 로드 오류:", error);
+        console.log("기본 테마 사용");
+        setApiThemes(themes);
+      } finally {
+        setIsLoadingThemes(false);
+        console.log("테마 로딩 완료");
+      }
+    };
+
+    fetchThemes();
   }, []);
 
   const handleThemeSelect = (themeValue: string) => {
@@ -124,12 +172,13 @@ const ThemeSelection = () => {
   const handleNext = () => {
     if (!selectedTheme || !childProfile) return;
 
+    setAppSelectedTheme(selectedTheme as any);
     localStorage.setItem("selectedTheme", selectedTheme);
     console.log("다음 단계로:", selectedTheme);
     navigate("/story");
   };
 
-  const selectedThemeData = themes.find((t) => t.value === selectedTheme);
+  const selectedThemeData = (apiThemes.length > 0 ? apiThemes : themes).find((t) => t.value === selectedTheme);
 
   if (!childProfile) {
     return (
@@ -192,7 +241,24 @@ const ThemeSelection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3"
         >
-          {themes.map((theme, index) => (
+          {isLoadingThemes ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="p-6 border border-gray-200 rounded-2xl animate-pulse bg-gray-50">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                  <div className="space-y-2">
+                    <div className="w-20 h-4 bg-gray-300 rounded"></div>
+                    <div className="w-16 h-3 bg-gray-300 rounded"></div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="w-full h-3 bg-gray-300 rounded"></div>
+                  <div className="w-3/4 h-3 bg-gray-300 rounded"></div>
+                </div>
+              </div>
+            ))
+          ) : (
+            (apiThemes.length > 0 ? apiThemes : themes).map((theme, index) => (
             <motion.div
               key={theme.value}
               initial={{ opacity: 0, y: 20 }}
@@ -239,7 +305,7 @@ const ThemeSelection = () => {
                           {theme.title}
                         </h3>
                         <div className="flex flex-wrap gap-1 mt-1">
-                          {theme.keywords.map((keyword, i) => (
+                          {theme.keywords.map((keyword: string, i: number) => (
                             <span
                               key={i}
                               className="px-2 py-1 text-xs font-medium rounded-full text-slate-600 bg-white/60"
@@ -263,7 +329,7 @@ const ThemeSelection = () => {
                       이야기 예시
                     </h4>
                     <div className="space-y-1">
-                      {theme.examples.slice(0, 2).map((example, i) => (
+                      {theme.examples.slice(0, 2).map((example: string, i: number) => (
                         <div
                           key={i}
                           className="flex items-center text-sm text-slate-600"
@@ -297,7 +363,8 @@ const ThemeSelection = () => {
                 </div>
               </div>
             </motion.div>
-          ))}
+          ))
+          )}
         </motion.div>
 
         {/* Selected theme summary */}

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 import {
   User,
   Calendar,
@@ -25,6 +26,7 @@ interface ErrorData {
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { state, setChildProfile } = useAppContext();
   const [profile, setProfile] = useState<ProfileData>({
     name: "",
     age: 5,
@@ -34,6 +36,27 @@ const Profile = () => {
   const [previewImage, setPreviewImage] = useState<string>("");
   const [errors, setErrors] = useState<ErrorData>({});
   const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    const savedProfile = localStorage.getItem("childProfile");
+    if (savedProfile) {
+      try {
+        const parsedProfile = JSON.parse(savedProfile);
+        setProfile(parsedProfile);
+        setPreviewImage(parsedProfile.photo || "");
+      } catch (error) {
+        console.error("프로필 로드 실패:", error);
+      }
+    } else if (state.childProfile) {
+      setProfile({
+        name: state.childProfile.name,
+        age: state.childProfile.age,
+        gender: state.childProfile.gender,
+        photo: state.childProfile.photo,
+      });
+      setPreviewImage(state.childProfile.photo || "");
+    }
+  }, [state.childProfile]);
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -90,8 +113,16 @@ const Profile = () => {
   const handleNext = () => {
     if (!validateForm()) return;
 
-    localStorage.setItem("childProfile", JSON.stringify(profile));
-    console.log("프로필 저장:", profile);
+    const childProfile = {
+      name: profile.name,
+      age: profile.age as 3 | 4 | 5 | 6 | 7,
+      gender: profile.gender,
+      photo: profile.photo,
+    };
+
+    setChildProfile(childProfile);
+    localStorage.setItem("childProfile", JSON.stringify(childProfile));
+    console.log("프로필 저장:", childProfile);
     navigate("/theme");
   };
 
