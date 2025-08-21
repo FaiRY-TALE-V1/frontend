@@ -23,6 +23,7 @@ const themes = [
       "🍎 과일 왕국 여행",
       "🥛 우유와 칼슘 요정",
     ],
+    imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-healthy-eating-2934108.png",
   },
   {
     value: "friendship_skills",
@@ -39,6 +40,7 @@ const themes = [
       "🎭 새친구 환영 파티",
       "🤲 마음을 나누는 다리",
     ],
+    imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-friends-1141102.png",
   },
   {
     value: "safety_habits",
@@ -55,6 +57,7 @@ const themes = [
       "👮 안전 경찰관과 모험",
       "🏠 우리 집 안전 점검",
     ],
+    imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-safety-3896338.png",
   },
   {
     value: "financial_literacy",
@@ -71,6 +74,7 @@ const themes = [
       "💎 보물섬의 지혜",
       "🏪 꼬마 상인의 이야기",
     ],
+    imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-money-8700923.png",
   },
   {
     value: "emotional_intelligence",
@@ -88,6 +92,7 @@ const themes = [
       "🤗 마음을 나누는 숲",
       "💕 위로의 마법사",
     ],
+    imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-emotions-5377629.png",
   },
 ];
 
@@ -282,7 +287,19 @@ const ThemeSelection = () => {
                   onClick={() => handleThemeSelect(theme.value)}
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="text-4xl">{theme.emoji}</div>
+                    <div className="w-16 h-16 flex items-center justify-center">
+                      {theme.imgUrl ? (
+                        <img 
+                          src={theme.imgUrl} 
+                          alt={theme.title}
+                          className="w-12 h-12 object-contain"
+                          onLoad={() => console.log(`이미지 로드됨: ${theme.title} - ${theme.imgUrl}`)}
+                          onError={() => console.error(`이미지 로드 실패: ${theme.title} - ${theme.imgUrl}`)}
+                        />
+                      ) : (
+                        <div className="text-4xl">{theme.emoji}</div>
+                      )}
+                    </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <h3 className="text-lg font-semibold text-gray-800">

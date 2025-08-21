@@ -33,6 +33,7 @@ export const apiService = {
           bgColor: "bg-green-50",
           examples: ["🥬 채소 친구들의 모험", "🍎 과일 왕국 여행", "🥛 우유와 칼슘 요정"],
           exampleImages: [],
+          imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-healthy-eating-2934108.png",
         },
         {
           value: "friendship_skills",
@@ -46,6 +47,7 @@ export const apiService = {
           bgColor: "bg-blue-50",
           examples: ["🌈 화해의 무지개", "🎭 새친구 환영 파티", "🤲 마음을 나누는 다리"],
           exampleImages: [],
+          imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-friends-1141102.png",
         },
         {
           value: "safety_habits",
@@ -59,6 +61,7 @@ export const apiService = {
           bgColor: "bg-red-50", 
           examples: ["🚦 신호등 친구의 가르침", "👮 안전 경찰관과 모험", "🏠 우리 집 안전 점검"],
           exampleImages: [],
+          imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-safety-3896338.png",
         },
         {
           value: "financial_literacy",
@@ -72,6 +75,7 @@ export const apiService = {
           bgColor: "bg-yellow-50",
           examples: ["🐷 저금통 돼지의 여행", "💎 보물섬의 지혜", "🏪 꼬마 상인의 이야기"],
           exampleImages: [],
+          imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-money-8700923.png",
         },
         {
           value: "emotional_intelligence",
@@ -85,6 +89,7 @@ export const apiService = {
           bgColor: "bg-pink-50",
           examples: ["😊 감정 요정들의 여행", "🤗 마음을 나누는 숲", "💕 위로의 마법사"],
           exampleImages: [],
+          imgUrl: "https://fairytaletheme.s3.ap-northeast-2.amazonaws.com/free-icon-emotions-5377629.png",
         },
       ];
 

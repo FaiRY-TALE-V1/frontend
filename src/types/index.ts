@@ -29,6 +29,7 @@ export interface Theme {
   examples: string[];
   label?: string; // 기존 호환성을 위해 옵셔널
   exampleImages?: string[]; // 기존 호환성을 위해 옵셔널
+  imgUrl?: string;
 }
 
 // 스토리 장면 인터페이스
