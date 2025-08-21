@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
+import { apiService } from "../services/api";
 import {
   User,
   Calendar,
@@ -23,6 +25,7 @@ interface ErrorData {
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { state, setChildProfile } = useAppContext();
   const [profile, setProfile] = useState<ProfileData>({
     name: "",
     age: 5,
@@ -33,14 +36,32 @@ const Profile = () => {
   const [errors, setErrors] = useState<ErrorData>({});
   const [isUploading, setIsUploading] = useState(false);
 
-  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files || files.length === 0) return;
+  useEffect(() => {
+    const savedProfile = localStorage.getItem("childProfile");
+    if (savedProfile) {
+      try {
+        const parsedProfile = JSON.parse(savedProfile);
+        setProfile(parsedProfile);
+        setPreviewImage(parsedProfile.photo || "");
+      } catch (error) {
+        console.error("프로필 로드 실패:", error);
+      }
+    } else if (state.childProfile) {
+      setProfile({
+        name: state.childProfile.name,
+        age: state.childProfile.age,
+        gender: state.childProfile.gender,
+        photo: state.childProfile.photo,
+      });
+      setPreviewImage(state.childProfile.photo || "");
+    }
+  }, [state.childProfile]);
 
-    // 최대 5장까지만 허용
-    const currentPhotos = previewImages.length;
-    const availableSlots = 5 - currentPhotos;
-    const filesToProcess = Array.from(files).slice(0, availableSlots);
+  const handlePhotoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
     setIsUploading(true);
 
@@ -72,7 +93,32 @@ const Profile = () => {
       reader.readAsDataURL(file);
     });
 
-    if (errors.photos) {
+    try {
+      // 백엔드 API를 사용한 파일 업로드
+      const uploadResponse = await apiService.uploadPhoto(file);
+
+      if (uploadResponse.success && uploadResponse.data) {
+        const imageUrl = uploadResponse.data.image_url;
+        setPreviewImage(imageUrl);
+        setProfile((prev) => ({
+          ...prev,
+          photo: imageUrl,
+        }));
+        console.log("사진 업로드 성공:", uploadResponse.message);
+      } else {
+        throw new Error(uploadResponse.error || "업로드 실패");
+      }
+    } catch (error: any) {
+      console.error("사진 업로드 실패:", error);
+      setErrors({
+        ...errors,
+        photo: error.message || "사진 업로드 중 오류가 발생했습니다.",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+
+    if (errors.photo) {
       const newErrors = { ...errors };
       delete newErrors.photos;
       setErrors(newErrors);
@@ -107,8 +153,16 @@ const Profile = () => {
   const handleNext = () => {
     if (!validateForm()) return;
 
-    localStorage.setItem("childProfile", JSON.stringify(profile));
-    console.log("프로필 저장:", profile);
+    const childProfile = {
+      name: profile.name,
+      age: profile.age as 3 | 4 | 5 | 6 | 7,
+      gender: profile.gender,
+      photo: profile.photo,
+    };
+
+    setChildProfile(childProfile);
+    localStorage.setItem("childProfile", JSON.stringify(childProfile));
+    console.log("프로필 저장:", childProfile);
     navigate("/theme");
   };
 
@@ -171,37 +225,28 @@ const Profile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white relative">
-      {/* 고정 배치된 배경 아이콘들 */}
-      {backgroundIcons.map((icon, index) => {
-        // 각 요소마다 다른 회전 속도 설정
-        const getAnimationDuration = () => {
-          if (icon.src.includes('circle.svg')) return '15s';
-          if (icon.src.includes('star.svg')) return '12s';
-          if (icon.src.includes('sun.svg')) return '10s';
-          if (icon.src.includes('spark.svg')) return '8s';
-          return '8s';
-        };
-        
-        return (
-          <img
-            key={index}
-            src={icon.src}
-            alt=""
-            className="absolute pointer-events-none z-0 opacity-40 animate-spin"
-            style={{
-              top: icon.position.top,
-              left: icon.position.left,
-              width: icon.size,
-              height: icon.size,
-              animationDuration: getAnimationDuration(),
-              transformOrigin: 'center center',
-            }}
-          />
-        );
-      })}
+    <div className="relative min-h-screen">
+      {/* 헤더 */}
+      <div className="relative z-20 px-4 py-6 bg-white shadow-sm">
+        <button
+          onClick={() => navigate("/")}
+          className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
+        >
+          <ChevronLeft className="w-5 h-5 text-gray-600" />
+        </button>
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-gray-800">프로필 설정</h1>
+          <div className="flex justify-center mt-2">
+            <div className="flex space-x-2">
+              <div className="w-8 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div className="px-4 pt-16 pb-8 relative z-10">
+      <div className="relative z-10 px-4 py-8">
         <div className="max-w-2xl mx-auto">
           {/* 메인 타이틀 */}
           <div className="mb-12 text-center">
@@ -440,13 +485,8 @@ const Profile = () => {
           </div>
 
           {/* 버튼 영역 */}
-          <div className="flex items-center justify-between pt-8">
-            <button
-              onClick={() => navigate("/")}
-              className="px-6 py-3 font-medium text-emerald-600 bg-white border-2 border-emerald-600 transition-colors rounded-xl hover:bg-emerald-50"
-            >
-              이전
-            </button>
+
+          <div className="flex justify-center pt-6 mt-8">
 
             <button
               onClick={handleNext}
@@ -470,10 +510,36 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* 하단 잔디 SVG */}
-      <div className="w-full">
-        <img 
-          src="/images/grass.svg" 
+      {/* 배경 데코레이션 아이콘들 */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* 왼쪽 상단 */}
+        <img src="/star.svg" alt="star" className="absolute top-20 left-10 w-6 h-6 opacity-30" />
+        <img src="/circle.svg" alt="circle" className="absolute top-32 left-32 w-8 h-8 opacity-20" />
+        
+        {/* 오른쪽 상단 */}
+        <img src="/spark.svg" alt="spark" className="absolute top-16 right-16 w-5 h-5 opacity-40" />
+        <img src="/sun.svg" alt="sun" className="absolute top-40 right-8 w-10 h-10 opacity-25" />
+        
+        {/* 왼쪽 중간 */}
+        <img src="/circle.svg" alt="circle" className="absolute top-64 left-8 w-4 h-4 opacity-30" />
+        <img src="/spark.svg" alt="spark" className="absolute top-80 left-24 w-6 h-6 opacity-35" />
+        
+        {/* 오른쪽 중간 */}
+        <img src="/star.svg" alt="star" className="absolute top-72 right-20 w-7 h-7 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute top-96 right-12 w-5 h-5 opacity-40" />
+        
+        {/* 하단 */}
+        <img src="/sun.svg" alt="sun" className="absolute bottom-80 left-16 w-8 h-8 opacity-20" />
+        <img src="/spark.svg" alt="spark" className="absolute bottom-72 right-24 w-4 h-4 opacity-30" />
+        <img src="/star.svg" alt="star" className="absolute bottom-64 left-40 w-6 h-6 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute bottom-56 right-32 w-9 h-9 opacity-15" />
+      </div>
+
+      {/* 하단 grass SVG */}
+      <div className="absolute bottom-0 left-0 right-0 z-0 pointer-events-none">
+        <img
+          src="/grass.svg"
+
           alt="grass decoration"
           className="w-full h-auto"
         />

@@ -116,6 +116,36 @@ export const apiService = {
   checkServerConnection: async (): Promise<boolean> => {
     return await apiClient.healthCheck();
   },
+
+  // 아이 사진 업로드
+  uploadPhoto: async (file: File): Promise<ApiResponse<{ image_url: string; message: string; file_info: any }>> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+      const response = await fetch('http://localhost:8000/upload_photo', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || '업로드 실패');
+      }
+      
+      const data = await response.json();
+      return {
+        success: true,
+        data: data,
+        message: data.message
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message || '파일 업로드 중 오류가 발생했습니다.'
+      };
+    }
+  },
 };
 
 // Qwen Image Edit API 서비스
@@ -185,3 +215,4 @@ export const qwenImageEditService = {
 };
 
 export default apiService;
+

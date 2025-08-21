@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 import "./index.css";
 
@@ -14,6 +13,8 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import ThemeSelection from "./pages/ThemeSelection";
 import StoryGeneration from "./pages/StoryGeneration";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 import { AppProvider } from "./context/AppContext";
 
 const root = ReactDOM.createRoot(
@@ -22,18 +23,33 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <AppProvider>
-      <Router>
-        <RootLayout>
-          <Routes>
-            <Route path="/" element={<Navigate to="/home" replace />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/theme" element={<ThemeSelection />} />
-            <Route path="/story" element={<StoryGeneration />} />
-          </Routes>
-        </RootLayout>
-      </Router>
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <Router>
+          <RootLayout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route 
+                path="/theme" 
+                element={
+                  <ProtectedRoute requireProfile={true}>
+                    <ThemeSelection />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/story" 
+                element={
+                  <ProtectedRoute requireTheme={true}>
+                    <StoryGeneration />
+                  </ProtectedRoute>
+                } 
+              />
+            </Routes>
+          </RootLayout>
+        </Router>
+      </AppProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );

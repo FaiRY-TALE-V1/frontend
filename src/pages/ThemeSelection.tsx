@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useAppContext } from "../context/AppContext";
+import { apiService } from "../services/api";
 import {
-  Sparkles,
-  BookOpen,
-  ChevronRight,
-  Heart,
   Check,
   ChevronLeft,
 } from "lucide-react";
@@ -96,25 +93,74 @@ const themes = [
 
 const ThemeSelection = () => {
   const navigate = useNavigate();
+  const {
+    state,
+    setSelectedTheme: setAppSelectedTheme,
+    canProceedToTheme,
+  } = useAppContext();
   const [selectedTheme, setSelectedTheme] = useState("");
-  const [childProfile, setChildProfile] = useState<{ name: string } | null>(
-    null
-  );
-  const [hoveredTheme, setHoveredTheme] = useState("");
+  const [childProfile, setChildProfile] = useState<{ name: string } | null>(null);
+  const [apiThemes, setApiThemes] = useState<any[]>([]);
+  const [isLoadingThemes, setIsLoadingThemes] = useState(true);
 
   useEffect(() => {
-    const savedProfile = localStorage.getItem("childProfile");
-    if (savedProfile) {
-      try {
-        const profile = JSON.parse(savedProfile);
-        setChildProfile(profile);
-      } catch (error) {
-        console.error("프로필 파싱 오류:", error);
-        setChildProfile({ name: "아이" });
-      }
-    } else {
-      setChildProfile({ name: "아이" });
+    if (!canProceedToTheme) {
+      navigate("/profile");
+      return;
     }
+
+    if (state.childProfile) {
+      setChildProfile(state.childProfile);
+    } else {
+      const savedProfile = localStorage.getItem("childProfile");
+      if (savedProfile) {
+        try {
+          const profile = JSON.parse(savedProfile);
+          setChildProfile(profile);
+        } catch (error) {
+          console.error("프로필 파싱 오류:", error);
+          navigate("/profile");
+          return;
+        }
+      } else {
+        navigate("/profile");
+        return;
+      }
+    }
+
+    if (state.selectedTheme) {
+      setSelectedTheme(state.selectedTheme);
+    }
+  }, [state, navigate, canProceedToTheme]);
+
+  // API에서 테마 가져오기
+  useEffect(() => {
+    const fetchThemes = async () => {
+      try {
+        setIsLoadingThemes(true);
+        console.log("테마 API 호출 시작...");
+
+        const response = await apiService.getThemes();
+        console.log("테마 API 응답:", response);
+
+        if (response.success && response.data?.themes) {
+          console.log("API 테마 사용:", response.data.themes);
+          setApiThemes(response.data.themes);
+        } else {
+          console.warn("API 테마 로드 실패, 기본 테마 사용");
+          setApiThemes(themes);
+        }
+      } catch (error) {
+        console.error("테마 로드 오류:", error);
+        console.log("기본 테마 사용");
+        setApiThemes(themes);
+      } finally {
+        setIsLoadingThemes(false);
+        console.log("테마 로딩 완료");
+      }
+    };
+
+    fetchThemes();
   }, []);
 
   const handleThemeSelect = (themeValue: string) => {
@@ -124,12 +170,12 @@ const ThemeSelection = () => {
   const handleNext = () => {
     if (!selectedTheme || !childProfile) return;
 
+    setAppSelectedTheme(selectedTheme as any);
     localStorage.setItem("selectedTheme", selectedTheme);
     console.log("다음 단계로:", selectedTheme);
     navigate("/story");
   };
 
-  const selectedThemeData = themes.find((t) => t.value === selectedTheme);
 
   if (!childProfile) {
     return (
@@ -143,9 +189,9 @@ const ThemeSelection = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       {/* Header */}
-      <div className="relative px-4 py-6 bg-white shadow-sm">
+      <div className="relative px-4 py-6 bg-white shadow-sm z-20">
         <button
           onClick={() => navigate("/profile")}
           className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
@@ -164,213 +210,123 @@ const ThemeSelection = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl px-6 py-8 mx-auto">
+      <div className="max-w-4xl px-6 py-8 mx-auto relative z-10">
         {/* Title Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 text-center"
-        >
-          <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
-            <BookOpen className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="mb-2 text-3xl font-bold text-gray-800">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-2xl font-bold text-gray-800">
             어떤 주제의 동화를 만들까요?
           </h2>
-          <p className="text-lg text-gray-600">
-            <span className="font-medium text-indigo-600">
+          <p className="text-gray-600">
+            <span className="font-medium text-blue-600">
               {childProfile.name}
             </span>
-            이의 성장에 도움이 될 교훈을 선택해주세요
+            이를 위한 교훈 테마를 선택해주세요
           </p>
-        </motion.div>
+        </div>
 
         {/* Theme Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {themes.map((theme, index) => (
-            <motion.div
-              key={theme.value}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              onHoverStart={() => setHoveredTheme(theme.value)}
-              onHoverEnd={() => setHoveredTheme("")}
-              className="relative group"
-            >
-              <div
-                className={`relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer ${
-                  selectedTheme === theme.value
-                    ? "ring-2 ring-indigo-500 shadow-lg scale-[1.02] border-indigo-200"
-                    : "border-slate-200 hover:shadow-lg hover:scale-[1.02] hover:border-slate-300"
-                } ${theme.bgColor} bg-opacity-50`}
-                onClick={() => handleThemeSelect(theme.value)}
-              >
-                {/* Selection indicator */}
-                <AnimatePresence>
-                  {selectedTheme === theme.value && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="absolute z-10 flex items-center justify-center w-6 h-6 bg-indigo-500 rounded-full top-4 right-4"
-                    >
-                      <Check className="w-4 h-4 text-white" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Gradient overlay */}
+        <div className="space-y-4 mb-12">
+          {isLoadingThemes
+            ? Array.from({ length: 5 }).map((_, index) => (
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${theme.color} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}
-                />
-
-                <div className="relative p-6">
-                  {/* Theme header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="text-3xl">{theme.emoji}</div>
-                      <div>
-                        <h3 className="text-lg font-bold text-slate-800">
+                  key={index}
+                  className="p-6 border border-gray-200 rounded-lg animate-pulse bg-gray-50"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="w-32 h-5 bg-gray-300 rounded"></div>
+                      <div className="w-full h-4 bg-gray-300 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            : (apiThemes.length > 0 ? apiThemes : themes).map((theme) => (
+                <div
+                  key={theme.value}
+                  className={`p-6 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
+                    selectedTheme === theme.value
+                      ? "border-blue-500 bg-blue-50 shadow-md"
+                      : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                  }`}
+                  onClick={() => handleThemeSelect(theme.value)}
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="text-4xl">{theme.emoji}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold text-gray-800">
                           {theme.title}
                         </h3>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {theme.keywords.map((keyword, i) => (
-                            <span
-                              key={i}
-                              className="px-2 py-1 text-xs font-medium rounded-full text-slate-600 bg-white/60"
-                            >
-                              {keyword}
-                            </span>
-                          ))}
-                        </div>
+                        {selectedTheme === theme.value && (
+                          <div className="flex items-center justify-center w-6 h-6 bg-blue-500 rounded-full">
+                            <Check className="w-4 h-4 text-white" />
+                          </div>
+                        )}
                       </div>
+                      <p className="mt-2 text-gray-600 leading-relaxed">
+                        {theme.description}
+                      </p>
                     </div>
                   </div>
-
-                  {/* Description */}
-                  <p className="mb-4 text-sm leading-relaxed text-slate-600">
-                    {theme.description}
-                  </p>
-
-                  {/* Examples preview */}
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-medium tracking-wide uppercase text-slate-500">
-                      이야기 예시
-                    </h4>
-                    <div className="space-y-1">
-                      {theme.examples.slice(0, 2).map((example, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center text-sm text-slate-600"
-                        >
-                          <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2" />
-                          {example}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Hover effect - show moral */}
-                  <AnimatePresence>
-                    {(hoveredTheme === theme.value ||
-                      selectedTheme === theme.value) && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                        animate={{ opacity: 1, height: "auto", marginTop: 16 }}
-                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                        className="pt-4 border-t border-white/50"
-                      >
-                        <div className="flex items-start space-x-2">
-                          <Heart className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
-                          <p className="text-xs leading-relaxed text-slate-600">
-                            {theme.moral}
-                          </p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              ))}
+        </div>
 
-        {/* Selected theme summary */}
-        <AnimatePresence>
-          {selectedTheme && selectedThemeData && (
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              className="p-6 mb-8 border shadow-lg bg-white/80 backdrop-blur-md border-white/20 rounded-2xl"
+        {/* Next Button */}
+        <div className="flex justify-center">
+          {selectedTheme ? (
+            <button
+              onClick={handleNext}
+              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center justify-center w-12 h-12 text-2xl bg-indigo-100 rounded-xl">
-                    {selectedThemeData.emoji}
-                  </div>
-                  <div>
-                    <h3 className="flex items-center text-lg font-bold text-slate-800">
-                      <Sparkles className="w-5 h-5 mr-2 text-indigo-500" />
-                      선택한 테마
-                    </h3>
-                    <p className="font-medium text-indigo-600">
-                      {selectedThemeData.title}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={handleNext}
-                  className="flex items-center px-8 py-3 space-x-2 font-medium text-white transition-all duration-200 group bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl hover:scale-105 hover:shadow-lg"
-                >
-                  <BookOpen className="w-5 h-5" />
-                  <span>동화 만들기</span>
-                  <ChevronRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Navigation */}
-        <div className="flex items-center justify-between">
-          <button
-            className="px-6 py-3 font-medium transition-colors duration-200 border border-slate-300 text-slate-600 rounded-xl hover:bg-slate-50"
-            onClick={() => navigate("/profile")}
-          >
-            이전
-          </button>
-
-          {!selectedTheme && (
-            <div className="flex items-center space-x-2 text-sm text-slate-500">
-              <div className="w-2 h-2 rounded-full bg-slate-400" />
-              <span>테마를 선택해주세요</span>
+              동화 만들기 시작 →
+            </button>
+          ) : (
+            <div className="text-center text-gray-500">
+              테마를 선택해주세요
             </div>
           )}
         </div>
 
-        {/* Progress indicator */}
-        <div className="flex justify-center mt-8">
-          <div className="flex space-x-2">
-            <div className="w-2 h-2 bg-indigo-300 rounded-full" />
-            <div
-              className={`w-2 h-2 rounded-full ${
-                selectedTheme ? "bg-indigo-500" : "bg-slate-300"
-              }`}
-            />
-            <div className="w-2 h-2 rounded-full bg-slate-300" />
-          </div>
-        </div>
-
         {/* Progress text */}
-        <div className="mt-4 text-center">
-          <p className="text-sm text-gray-500">2단계 / 3단계 - 테마 선택 중</p>
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500">2단계 / 3단계 - 테마 선택</p>
         </div>
+      </div>
+
+      {/* 배경 데코레이션 아이콘들 */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {/* 왼쪽 상단 */}
+        <img src="/star.svg" alt="star" className="absolute top-20 left-10 w-6 h-6 opacity-30" />
+        <img src="/circle.svg" alt="circle" className="absolute top-32 left-32 w-8 h-8 opacity-20" />
+        
+        {/* 오른쪽 상단 */}
+        <img src="/spark.svg" alt="spark" className="absolute top-16 right-16 w-5 h-5 opacity-40" />
+        <img src="/sun.svg" alt="sun" className="absolute top-40 right-8 w-10 h-10 opacity-25" />
+        
+        {/* 왼쪽 중간 */}
+        <img src="/circle.svg" alt="circle" className="absolute top-64 left-8 w-4 h-4 opacity-30" />
+        <img src="/spark.svg" alt="spark" className="absolute top-80 left-24 w-6 h-6 opacity-35" />
+        
+        {/* 오른쪽 중간 */}
+        <img src="/star.svg" alt="star" className="absolute top-72 right-20 w-7 h-7 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute top-96 right-12 w-5 h-5 opacity-40" />
+        
+        {/* 하단 */}
+        <img src="/sun.svg" alt="sun" className="absolute bottom-80 left-16 w-8 h-8 opacity-20" />
+        <img src="/spark.svg" alt="spark" className="absolute bottom-72 right-24 w-4 h-4 opacity-30" />
+        <img src="/star.svg" alt="star" className="absolute bottom-64 left-40 w-6 h-6 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute bottom-56 right-32 w-9 h-9 opacity-15" />
+      </div>
+
+      {/* 하단 grass SVG */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none z-0">
+        <img
+          src="/grass.svg"
+          alt="grass decoration"
+          className="w-full h-auto"
+        />
       </div>
     </div>
   );
