@@ -429,31 +429,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* 배경 데코레이션 아이콘들 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        {/* 왼쪽 상단 */}
-        <img src="/star.svg" alt="star" className="absolute top-20 left-10 w-6 h-6 opacity-30" />
-        <img src="/circle.svg" alt="circle" className="absolute top-32 left-32 w-8 h-8 opacity-20" />
-        
-        {/* 오른쪽 상단 */}
-        <img src="/spark.svg" alt="spark" className="absolute top-16 right-16 w-5 h-5 opacity-40" />
-        <img src="/sun.svg" alt="sun" className="absolute top-40 right-8 w-10 h-10 opacity-25" />
-        
-        {/* 왼쪽 중간 */}
-        <img src="/circle.svg" alt="circle" className="absolute top-64 left-8 w-4 h-4 opacity-30" />
-        <img src="/spark.svg" alt="spark" className="absolute top-80 left-24 w-6 h-6 opacity-35" />
-        
-        {/* 오른쪽 중간 */}
-        <img src="/star.svg" alt="star" className="absolute top-72 right-20 w-7 h-7 opacity-25" />
-        <img src="/circle.svg" alt="circle" className="absolute top-96 right-12 w-5 h-5 opacity-40" />
-        
-        {/* 하단 */}
-        <img src="/sun.svg" alt="sun" className="absolute bottom-80 left-16 w-8 h-8 opacity-20" />
-        <img src="/spark.svg" alt="spark" className="absolute bottom-72 right-24 w-4 h-4 opacity-30" />
-        <img src="/star.svg" alt="star" className="absolute bottom-64 left-40 w-6 h-6 opacity-25" />
-        <img src="/circle.svg" alt="circle" className="absolute bottom-56 right-32 w-9 h-9 opacity-15" />
-      </div>
-
       {/* 하단 grass SVG */}
       <div className="absolute bottom-0 left-0 right-0 z-0 pointer-events-none">
         <img

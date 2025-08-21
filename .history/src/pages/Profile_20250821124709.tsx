@@ -59,9 +59,7 @@ const Profile = () => {
     }
   }, [state.childProfile]);
 
-  const handlePhotoUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -76,7 +74,7 @@ const Profile = () => {
     try {
       // 백엔드 API를 사용한 파일 업로드
       const uploadResponse = await apiService.uploadPhoto(file);
-
+      
       if (uploadResponse.success && uploadResponse.data) {
         const imageUrl = uploadResponse.data.image_url;
         setPreviewImage(imageUrl);
@@ -90,10 +88,7 @@ const Profile = () => {
       }
     } catch (error: any) {
       console.error("사진 업로드 실패:", error);
-      setErrors({
-        ...errors,
-        photo: error.message || "사진 업로드 중 오류가 발생했습니다.",
-      });
+      setErrors({ ...errors, photo: error.message || "사진 업로드 중 오류가 발생했습니다." });
     } finally {
       setIsUploading(false);
     }
@@ -151,9 +146,9 @@ const Profile = () => {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="min-h-screen relative">
       {/* 헤더 */}
-      <div className="relative z-20 px-4 py-6 bg-white shadow-sm">
+      <div className="relative px-4 py-6 bg-white shadow-sm">
         <button
           onClick={() => navigate("/")}
           className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
@@ -172,7 +167,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="relative z-10 px-4 py-8">
+      <div className="px-4 py-8 relative z-10">
         <div className="max-w-2xl mx-auto">
           {/* 메인 타이틀 */}
           <div className="mb-8 text-center">
@@ -406,7 +401,14 @@ const Profile = () => {
           </div>
 
           {/* 버튼 영역 */}
-          <div className="flex justify-center pt-6 mt-8">
+          <div className="flex items-center justify-between pt-6 mt-8">
+            <button
+              onClick={() => navigate("/")}
+              className="px-6 py-3 font-medium text-gray-600 transition-colors rounded-xl hover:bg-gray-100"
+            >
+              이전
+            </button>
+
             <button
               onClick={handleNext}
               disabled={!profile.name.trim()}
@@ -428,37 +430,12 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
-      {/* 배경 데코레이션 아이콘들 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        {/* 왼쪽 상단 */}
-        <img src="/star.svg" alt="star" className="absolute top-20 left-10 w-6 h-6 opacity-30" />
-        <img src="/circle.svg" alt="circle" className="absolute top-32 left-32 w-8 h-8 opacity-20" />
-        
-        {/* 오른쪽 상단 */}
-        <img src="/spark.svg" alt="spark" className="absolute top-16 right-16 w-5 h-5 opacity-40" />
-        <img src="/sun.svg" alt="sun" className="absolute top-40 right-8 w-10 h-10 opacity-25" />
-        
-        {/* 왼쪽 중간 */}
-        <img src="/circle.svg" alt="circle" className="absolute top-64 left-8 w-4 h-4 opacity-30" />
-        <img src="/spark.svg" alt="spark" className="absolute top-80 left-24 w-6 h-6 opacity-35" />
-        
-        {/* 오른쪽 중간 */}
-        <img src="/star.svg" alt="star" className="absolute top-72 right-20 w-7 h-7 opacity-25" />
-        <img src="/circle.svg" alt="circle" className="absolute top-96 right-12 w-5 h-5 opacity-40" />
-        
-        {/* 하단 */}
-        <img src="/sun.svg" alt="sun" className="absolute bottom-80 left-16 w-8 h-8 opacity-20" />
-        <img src="/spark.svg" alt="spark" className="absolute bottom-72 right-24 w-4 h-4 opacity-30" />
-        <img src="/star.svg" alt="star" className="absolute bottom-64 left-40 w-6 h-6 opacity-25" />
-        <img src="/circle.svg" alt="circle" className="absolute bottom-56 right-32 w-9 h-9 opacity-15" />
-      </div>
-
+      
       {/* 하단 grass SVG */}
-      <div className="absolute bottom-0 left-0 right-0 z-0 pointer-events-none">
-        <img
-          src="/grass.svg"
-          alt="grass decoration"
+      <div className="absolute bottom-0 left-0 right-0 -z-10 pointer-events-none">
+        <img 
+          src="/grass.svg" 
+          alt="grass decoration" 
           className="w-full h-auto"
         />
       </div>
