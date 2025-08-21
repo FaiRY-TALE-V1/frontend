@@ -112,43 +112,6 @@ export interface AppState {
   error?: string;
 }
 
-// Qwen Image Edit 관련 인터페이스
-export interface ImageEditRequest {
-  image: string;
-  prompt: string;
-  negativePrompt?: string;
-  numInferenceSteps?: number;
-  trueCfgScale?: number;
-}
-
-export interface CharacterGenerationRequest {
-  childPhoto: string;
-  childName: string;
-  age: Age;
-  gender: Gender;
-  theme: string;
-}
-
-export interface PersonalizedSceneRequest {
-  characterImage: string;
-  sceneDescription: string;
-  childName: string;
-  theme: string;
-}
-
-export interface ImageEditResponse {
-  editedImage: string;
-  processingTime: number;
-  success: boolean;
-  error?: string;
-}
-
-// 유틸리티 타입
-export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-export type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>;
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};
 
 // 상수 정의
 export const THEME_VALUES = [

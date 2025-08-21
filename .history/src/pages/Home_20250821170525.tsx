@@ -183,38 +183,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scroll Down Button */}
-        <div className="absolute transform -translate-x-1/2 bottom-8 left-1/2">
-          <button
-            onClick={() => {
-              const howItWorksSection = document.querySelector(
-                "section:nth-of-type(2)"
-              );
-              if (howItWorksSection) {
-                howItWorksSection.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            className="flex flex-col items-center justify-center w-24 h-24 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
-          >
-            <div className="w-6 h-6 animate-bounce">
-              <svg
-                className="w-full h-full transition-transform duration-300 group-hover:translate-y-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
-            </div>
-          </button>
-        </div>
-
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -262,30 +230,30 @@ const Home = () => {
               },
             ].map((step, index) => (
               <div key={index} className="relative group">
-                <div className="flex flex-col items-center p-8 text-center transition-all duration-300 border border-gray-300 shadow-sm rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-lg hover:-translate-y-1">
+                <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   {/* Step Number */}
                   <div className="relative mb-6">
-                    <div className="flex items-center justify-center w-16 h-16 text-2xl font-bold text-white rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white text-2xl font-bold shadow-lg">
                       {step.step}
                     </div>
-                    <div className="absolute w-6 h-6 rounded-full -top-1 -right-1 bg-gradient-to-br from-emerald-400 to-teal-500 animate-pulse"></div>
+                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 animate-pulse"></div>
                   </div>
 
                   {/* Content */}
-                  <h3 className="mb-4 text-2xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600">
+                  <h3 className="mb-4 text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
                     {step.title}
                   </h3>
-                  <p className="max-w-sm text-base leading-relaxed text-gray-600">
+                  <p className="text-lg leading-relaxed text-gray-600 max-w-sm">
                     {step.description}
                   </p>
                 </div>
 
                 {/* Arrow between steps */}
                 {index < 2 && (
-                  <div className="absolute hidden w-full transform -translate-y-1/2 lg:block top-1/2 left-full">
+                  <div className="absolute hidden w-full lg:block top-1/2 left-full transform -translate-y-1/2">
                     <div className="flex items-center justify-center">
                       <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 relative">
-                        <div className="absolute right-0 w-3 h-3 transform -translate-y-1/2 rounded-full top-1/2 bg-gradient-to-r from-blue-400 to-purple-500"></div>
+                        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
                       </div>
                     </div>
                   </div>

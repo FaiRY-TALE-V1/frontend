@@ -380,7 +380,7 @@ const Profile = () => {
               </label>
               <p className="p-4 text-gray-600 rounded-lg bg-blue-50">
                 💡 아이의 특징을 담은 사진을 업로드하면 더욱 닮은 캐릭터로
-                동화를 만들어드려요
+                동화를 만들어드려요 (1장)
               </p>
 
               {previewImage && (

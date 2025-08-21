@@ -184,17 +184,15 @@ const Home = () => {
         </div>
 
         {/* Scroll Down Button */}
-        <div className="absolute transform -translate-x-1/2 bottom-8 left-1/2">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <button
             onClick={() => {
-              const howItWorksSection = document.querySelector(
-                "section:nth-of-type(2)"
-              );
+              const howItWorksSection = document.querySelector('section:nth-of-type(2)');
               if (howItWorksSection) {
-                howItWorksSection.scrollIntoView({ behavior: "smooth" });
+                howItWorksSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="flex flex-col items-center justify-center w-24 h-24 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
+            className="flex flex-col items-center justify-center w-12 h-12 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
           >
             <div className="w-6 h-6 animate-bounce">
               <svg
@@ -212,6 +210,9 @@ const Home = () => {
                 />
               </svg>
             </div>
+            <span className="text-xs font-medium mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              스크롤
+            </span>
           </button>
         </div>
 

@@ -88,8 +88,8 @@ export const apiService = {
         {
           value: "emotional_intelligence",
           title: "감정표현",
-          emoji: "💕",
-          label: "💕 감정표현",
+          emoji: "💝",
+          label: "💝 감정표현",
           description: "감정을 이해하고 올바르게 표현하는 방법을 배워요",
           moral: "내 마음을 표현하고 다른 사람의 마음을 이해하는 것이 중요해요",
           keywords: ["감정", "공감", "소통"],

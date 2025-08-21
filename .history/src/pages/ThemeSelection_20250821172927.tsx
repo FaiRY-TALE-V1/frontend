@@ -73,7 +73,7 @@ const themes = [
   {
     value: "emotional_intelligence",
     title: "감정표현",
-    emoji: "💕",
+    emoji: "💝",
     description:
       "다양한 감정을 이해하고 표현하며 친구의 마음을 공감하는 이야기",
     moral:
@@ -262,7 +262,7 @@ const ThemeSelection = () => {
             ? Array.from({ length: 5 }).map((_, index) => (
                 <div
                   key={index}
-                  className="p-6 bg-gray-200 border border-gray-400 rounded-lg animate-pulse"
+                  className="p-6 border border-gray-200 rounded-lg animate-pulse bg-gray-50"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gray-300 rounded-full"></div>

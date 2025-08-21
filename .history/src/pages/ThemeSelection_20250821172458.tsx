@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import { apiService } from "../services/api";
-import { Check, ChevronLeft } from "lucide-react";
-import { addKoreanParticle } from "../utils/koreanParticle";
+import {
+  Check,
+  ChevronLeft,
+} from "lucide-react";
+import { forName } from "../utils/koreanParticle";
 
 const themes = [
   {
@@ -41,7 +44,7 @@ const themes = [
   {
     value: "safety_habits",
     title: "안전 습관",
-    emoji: "🚦",
+    emoji: "🛡️",
     description: "일상생활에서 안전을 지키는 올바른 습관들을 배우는 이야기",
     moral:
       "안전 규칙을 잘 지키면 다치지 않고 즐겁게 생활할 수 있어요. 위험한 상황에서는 어른에게 도움을 요청해요.",
@@ -73,7 +76,7 @@ const themes = [
   {
     value: "emotional_intelligence",
     title: "감정표현",
-    emoji: "💕",
+    emoji: "💝",
     description:
       "다양한 감정을 이해하고 표현하며 친구의 마음을 공감하는 이야기",
     moral:
@@ -97,16 +100,14 @@ const ThemeSelection = () => {
     canProceedToTheme,
   } = useAppContext();
   const [selectedTheme, setSelectedTheme] = useState("");
-  const [childProfile, setChildProfile] = useState<{ name: string } | null>(
-    null
-  );
+  const [childProfile, setChildProfile] = useState<{ name: string } | null>(null);
   const [apiThemes, setApiThemes] = useState<any[]>([]);
   const [isLoadingThemes, setIsLoadingThemes] = useState(true);
 
   useEffect(() => {
     // localStorage에서 프로필 확인
     const hasProfileInStorage = Boolean(localStorage.getItem("childProfile"));
-
+    
     if (!canProceedToTheme && !hasProfileInStorage) {
       navigate("/profile");
       return;
@@ -144,16 +145,13 @@ const ThemeSelection = () => {
         console.log("테마 API 호출 시작...");
 
         // 5초 타임아웃 설정
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("API 타임아웃")), 5000)
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('API 타임아웃')), 5000)
         );
 
         const apiPromise = apiService.getThemes();
-
-        const response = (await Promise.race([
-          apiPromise,
-          timeoutPromise,
-        ])) as any;
+        
+        const response = await Promise.race([apiPromise, timeoutPromise]) as any;
         console.log("테마 API 응답:", response);
         console.log("응답 타입:", typeof response);
         console.log("response.success:", response.success);
@@ -189,7 +187,7 @@ const ThemeSelection = () => {
     console.log("ThemeSelection handleNext 시작");
     console.log("selectedTheme:", selectedTheme);
     console.log("childProfile:", childProfile);
-
+    
     if (!selectedTheme || !childProfile) {
       console.log("테마 또는 프로필 없음 - 실행 중단");
       return;
@@ -203,6 +201,7 @@ const ThemeSelection = () => {
     console.log("navigate 호출 완료");
   };
 
+
   if (!childProfile) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -215,9 +214,9 @@ const ThemeSelection = () => {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className="min-h-screen relative">
       {/* Header */}
-      <div className="relative z-20 px-4 py-6 bg-white shadow-sm">
+      <div className="relative px-4 py-6 bg-white shadow-sm z-20">
         <button
           onClick={() => navigate("/profile")}
           className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
@@ -236,7 +235,7 @@ const ThemeSelection = () => {
         </div>
       </div>
 
-      <div className="relative z-10 max-w-4xl px-6 py-8 mx-auto">
+      <div className="max-w-4xl px-6 py-8 mx-auto relative z-10">
         {/* Title Section */}
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-2xl font-bold text-gray-800">
@@ -244,14 +243,14 @@ const ThemeSelection = () => {
           </h2>
           <p className="text-gray-600">
             <span className="font-medium text-blue-600">
-              {addKoreanParticle(childProfile.name, "을")}
-            </span>{" "}
-            위한 교훈 테마를 선택해주세요
+              {childProfile.name}
+            </span>
+            {forName(childProfile.name)} 교훈 테마를 선택해주세요
           </p>
         </div>
 
         {/* Theme Grid */}
-        <div className="mb-12 space-y-4">
+        <div className="space-y-4 mb-12">
           {(() => {
             console.log("렌더링 상태 - isLoadingThemes:", isLoadingThemes);
             console.log("렌더링 상태 - apiThemes.length:", apiThemes.length);
@@ -262,7 +261,7 @@ const ThemeSelection = () => {
             ? Array.from({ length: 5 }).map((_, index) => (
                 <div
                   key={index}
-                  className="p-6 bg-gray-200 border border-gray-400 rounded-lg animate-pulse"
+                  className="p-6 border border-gray-200 rounded-lg animate-pulse bg-gray-50"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
@@ -296,7 +295,7 @@ const ThemeSelection = () => {
                           </div>
                         )}
                       </div>
-                      <p className="mt-2 leading-relaxed text-gray-600">
+                      <p className="mt-2 text-gray-600 leading-relaxed">
                         {theme.description}
                       </p>
                     </div>
@@ -310,12 +309,14 @@ const ThemeSelection = () => {
           {selectedTheme ? (
             <button
               onClick={handleNext}
-              className="px-8 py-3 font-semibold text-white transition-all duration-200 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 hover:shadow-xl"
+              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               동화 만들기 시작 →
             </button>
           ) : (
-            <div className="text-center text-gray-500">테마를 선택해주세요</div>
+            <div className="text-center text-gray-500">
+              테마를 선택해주세요
+            </div>
           )}
         </div>
 
@@ -326,80 +327,32 @@ const ThemeSelection = () => {
       </div>
 
       {/* 배경 데코레이션 아이콘들 */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         {/* 왼쪽 상단 */}
-        <img
-          src="/star.svg"
-          alt="star"
-          className="absolute w-6 h-6 top-20 left-10 opacity-30"
-        />
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute w-8 h-8 top-32 left-32 opacity-20"
-        />
-
+        <img src="/star.svg" alt="star" className="absolute top-20 left-10 w-6 h-6 opacity-30" />
+        <img src="/circle.svg" alt="circle" className="absolute top-32 left-32 w-8 h-8 opacity-20" />
+        
         {/* 오른쪽 상단 */}
-        <img
-          src="/spark.svg"
-          alt="spark"
-          className="absolute w-5 h-5 top-16 right-16 opacity-40"
-        />
-        <img
-          src="/sun.svg"
-          alt="sun"
-          className="absolute w-10 h-10 opacity-25 top-40 right-8"
-        />
-
+        <img src="/spark.svg" alt="spark" className="absolute top-16 right-16 w-5 h-5 opacity-40" />
+        <img src="/sun.svg" alt="sun" className="absolute top-40 right-8 w-10 h-10 opacity-25" />
+        
         {/* 왼쪽 중간 */}
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute w-4 h-4 top-64 left-8 opacity-30"
-        />
-        <img
-          src="/spark.svg"
-          alt="spark"
-          className="absolute w-6 h-6 top-80 left-24 opacity-35"
-        />
-
+        <img src="/circle.svg" alt="circle" className="absolute top-64 left-8 w-4 h-4 opacity-30" />
+        <img src="/spark.svg" alt="spark" className="absolute top-80 left-24 w-6 h-6 opacity-35" />
+        
         {/* 오른쪽 중간 */}
-        <img
-          src="/star.svg"
-          alt="star"
-          className="absolute opacity-25 top-72 right-20 w-7 h-7"
-        />
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute w-5 h-5 top-96 right-12 opacity-40"
-        />
-
+        <img src="/star.svg" alt="star" className="absolute top-72 right-20 w-7 h-7 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute top-96 right-12 w-5 h-5 opacity-40" />
+        
         {/* 하단 */}
-        <img
-          src="/sun.svg"
-          alt="sun"
-          className="absolute w-8 h-8 bottom-80 left-16 opacity-20"
-        />
-        <img
-          src="/spark.svg"
-          alt="spark"
-          className="absolute w-4 h-4 bottom-72 right-24 opacity-30"
-        />
-        <img
-          src="/star.svg"
-          alt="star"
-          className="absolute w-6 h-6 opacity-25 bottom-64 left-40"
-        />
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute bottom-56 right-32 w-9 h-9 opacity-15"
-        />
+        <img src="/sun.svg" alt="sun" className="absolute bottom-80 left-16 w-8 h-8 opacity-20" />
+        <img src="/spark.svg" alt="spark" className="absolute bottom-72 right-24 w-4 h-4 opacity-30" />
+        <img src="/star.svg" alt="star" className="absolute bottom-64 left-40 w-6 h-6 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute bottom-56 right-32 w-9 h-9 opacity-15" />
       </div>
 
       {/* 하단 grass SVG */}
-      <div className="absolute bottom-0 left-0 right-0 z-0 pointer-events-none">
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none z-0">
         <img
           src="/grass.svg"
           alt="grass decoration"

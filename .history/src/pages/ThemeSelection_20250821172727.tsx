@@ -41,7 +41,7 @@ const themes = [
   {
     value: "safety_habits",
     title: "안전 습관",
-    emoji: "🚦",
+    emoji: "🛡️",
     description: "일상생활에서 안전을 지키는 올바른 습관들을 배우는 이야기",
     moral:
       "안전 규칙을 잘 지키면 다치지 않고 즐겁게 생활할 수 있어요. 위험한 상황에서는 어른에게 도움을 요청해요.",
@@ -73,7 +73,7 @@ const themes = [
   {
     value: "emotional_intelligence",
     title: "감정표현",
-    emoji: "💕",
+    emoji: "💝",
     description:
       "다양한 감정을 이해하고 표현하며 친구의 마음을 공감하는 이야기",
     moral:
@@ -245,8 +245,8 @@ const ThemeSelection = () => {
           <p className="text-gray-600">
             <span className="font-medium text-blue-600">
               {addKoreanParticle(childProfile.name, "을")}
-            </span>{" "}
-            위한 교훈 테마를 선택해주세요
+            </span>
+            {" "}위한 교훈 테마를 선택해주세요
           </p>
         </div>
 
@@ -262,7 +262,7 @@ const ThemeSelection = () => {
             ? Array.from({ length: 5 }).map((_, index) => (
                 <div
                   key={index}
-                  className="p-6 bg-gray-200 border border-gray-400 rounded-lg animate-pulse"
+                  className="p-6 border border-gray-200 rounded-lg animate-pulse bg-gray-50"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gray-300 rounded-full"></div>

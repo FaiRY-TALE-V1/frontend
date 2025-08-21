@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, ArrowRight, Menu, X } from "lucide-react";
+import { Sparkles, Star, Play, ArrowRight, Menu, X } from "lucide-react";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ const Home = () => {
             <div className="space-y-8">
               <div className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-full text-emerald-700 bg-emerald-50 border-emerald-200">
                 <div className="w-2 h-2 mr-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                AI 기반 맞춤형 동화 서비스
+                최신 AI 기반 개인화 동화 서비스
               </div>
 
               <h1 className="text-4xl font-bold leading-tight tracking-tight text-gray-900 lg:text-6xl">
@@ -132,9 +132,9 @@ const Home = () => {
               </h1>
 
               <p className="max-w-lg text-lg leading-relaxed text-gray-600">
-                우리 아이가 주인공이 되는 특별한 동화를 만들어보세요.
+                최신 AI 기술로 아이의 성향과 관심사를 분석하여
                 <br />
-                세상에 단 하나뿐인 동화책이 AI의 마법으로 탄생합니다.
+                세상에 단 하나뿐인 특별한 이야기를 만들어드립니다.
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -183,38 +183,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scroll Down Button */}
-        <div className="absolute transform -translate-x-1/2 bottom-8 left-1/2">
-          <button
-            onClick={() => {
-              const howItWorksSection = document.querySelector(
-                "section:nth-of-type(2)"
-              );
-              if (howItWorksSection) {
-                howItWorksSection.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            className="flex flex-col items-center justify-center w-24 h-24 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
-          >
-            <div className="w-6 h-6 animate-bounce">
-              <svg
-                className="w-full h-full transition-transform duration-300 group-hover:translate-y-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
-            </div>
-          </button>
-        </div>
-
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -243,55 +211,144 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid gap-12 lg:grid-cols-3">
+          <div className="grid gap-16 lg:grid-cols-3">
             {[
               {
                 step: "1",
                 title: "아이 정보 입력",
-                description: "이름, 나이, 사진 등 기본 정보를 입력해주세요.",
+                description:
+                  "아이의 이름, 나이, 성격, 관심사 등 기본 정보를 입력해주세요. 더 자세할수록 더욱 특별한 이야기가 만들어집니다.",
+                icon: "👶",
+                bgColor: "bg-blue-50",
+                iconBg: "bg-blue-500",
               },
               {
                 step: "2",
-                title: "테마 선택",
-                description: "5개의 테마 중 마음에 드는 테마를 선택해주세요.",
+                title: "AI가 맞춤 스토리 생성",
+                description:
+                  "고도화된 AI가 입력된 정보를 바탕으로 아이에게 딱 맞는 이야기를 창작합니다.",
+                icon: "🤖",
+                bgColor: "bg-purple-50",
+                iconBg: "bg-purple-500",
               },
               {
                 step: "3",
                 title: "동화책 완성!",
-                description: "일러스트와 함께 동화책을 확인하고 저장하세요.",
+                description:
+                  "아름다운 일러스트와 함께 완성된 동화책을 확인하고 저장하세요.",
+                icon: "📖",
+                bgColor: "bg-emerald-50",
+                iconBg: "bg-emerald-500",
               },
             ].map((step, index) => (
-              <div key={index} className="relative group">
-                <div className="flex flex-col items-center p-8 text-center transition-all duration-300 border border-gray-300 shadow-sm rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-lg hover:-translate-y-1">
-                  {/* Step Number */}
-                  <div className="relative mb-6">
-                    <div className="flex items-center justify-center w-16 h-16 text-2xl font-bold text-white rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600">
+              <div key={index} className="relative">
+                <div className="flex flex-col items-center text-center">
+                  <div
+                    className={`relative mb-8 p-6 rounded-3xl ${step.bgColor}`}
+                  >
+                    <div className="mb-4 text-4xl">{step.icon}</div>
+                    <div
+                      className={`absolute flex items-center justify-center w-8 h-8 text-sm font-bold text-white rounded-full ${step.iconBg} -top-2 -right-2`}
+                    >
                       {step.step}
                     </div>
-                    <div className="absolute w-6 h-6 rounded-full -top-1 -right-1 bg-gradient-to-br from-emerald-400 to-teal-500 animate-pulse"></div>
                   </div>
 
-                  {/* Content */}
-                  <h3 className="mb-4 text-2xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600">
+                  <h3 className="mb-4 text-2xl font-bold text-gray-900">
                     {step.title}
                   </h3>
-                  <p className="max-w-sm text-base leading-relaxed text-gray-600">
+                  <p className="max-w-sm text-lg leading-relaxed text-gray-600">
                     {step.description}
                   </p>
                 </div>
 
-                {/* Arrow between steps */}
                 {index < 2 && (
-                  <div className="absolute hidden w-full transform -translate-y-1/2 lg:block top-1/2 left-full">
+                  <div className="absolute hidden w-full lg:block top-16 left-full">
                     <div className="flex items-center justify-center">
-                      <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 relative">
-                        <div className="absolute right-0 w-3 h-3 transform -translate-y-1/2 rounded-full top-1/2 bg-gradient-to-r from-blue-400 to-purple-500"></div>
-                      </div>
+                      <ArrowRight className="w-6 h-6 text-gray-300 transform translate-x-8" />
                     </div>
                   </div>
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      {/* <section className="py-20 bg-gray-50">
+        <div className="px-6 mx-auto max-w-7xl lg:px-8">
+          <div className="max-w-2xl mx-auto mb-20 text-center">
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 lg:text-5xl">
+              특별한 기능들
+            </h2>
+            <p className="text-xl text-gray-600">
+              아이를 위한 최고의 동화 경험을 제공합니다
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {[
+              {
+                title: "개인화 스토리",
+                description:
+                  "아이의 성향을 분석하여 완전히 맞춤화된 이야기를 생성합니다.",
+                icon: "🎯",
+                bgGradient: "from-blue-500 to-purple-600",
+              },
+              {
+                title: "고품질 일러스트",
+                description:
+                  "전문 작가 수준의 아름다운 삽화가 함께 제공됩니다.",
+                icon: "🎨",
+                bgGradient: "from-pink-500 to-rose-600",
+              },
+              {
+                title: "교육적 가치",
+                description:
+                  "재미와 함께 교훈과 학습 효과까지 고려된 스토리입니다.",
+                icon: "📚",
+                bgGradient: "from-emerald-500 to-teal-600",
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="p-8 transition-all duration-300 transform bg-white border border-gray-200 group rounded-2xl hover:shadow-2xl hover:-translate-y-2"
+              >
+                <div
+                  className={`inline-flex items-center justify-center w-16 h-16 text-2xl rounded-2xl bg-gradient-to-br ${feature.bgGradient} text-white mb-6 group-hover:scale-110 transition-transform duration-300`}
+                >
+                  {feature.icon}
+                </div>
+                <h3 className="mb-4 text-2xl font-bold text-gray-900">
+                  {feature.title}
+                </h3>
+                <p className="text-lg leading-relaxed text-gray-600">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section> */}
+
+      {/* CTA Section */}
+      <section className="relative py-20 overflow-hidden bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800">
+        <div className="absolute inset-0 bg-black opacity-10"></div>
+        <div className="relative px-6 mx-auto max-w-7xl lg:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="mb-6 text-4xl font-bold text-white lg:text-5xl">
+              지금 바로 시작해보세요
+            </h2>
+            <p className="mb-10 text-xl text-emerald-100">
+              아이를 위한 특별한 동화를 만들어보는 데는 단 몇 분이면 충분합니다.
+            </p>
+            <button
+              onClick={handleStartClick}
+              className="px-12 py-4 text-lg font-medium transition-all duration-200 transform bg-white shadow-2xl rounded-xl text-emerald-600 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-50 hover:shadow-3xl hover:-translate-y-1"
+            >
+              무료로 시작하기
+            </button>
           </div>
         </div>
       </section>

@@ -194,7 +194,7 @@ const Home = () => {
                 howItWorksSection.scrollIntoView({ behavior: "smooth" });
               }
             }}
-            className="flex flex-col items-center justify-center w-24 h-24 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
+            className="flex flex-col items-center justify-center w-16 h-16 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
           >
             <div className="w-6 h-6 animate-bounce">
               <svg

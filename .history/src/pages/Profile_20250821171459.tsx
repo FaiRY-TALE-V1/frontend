@@ -10,8 +10,6 @@ import {
   Check,
   ChevronLeft,
   Sparkles,
-  Mars,
-  Venus,
 } from "lucide-react";
 
 interface ProfileData {
@@ -319,9 +317,7 @@ const Profile = () => {
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
-                  <div className="flex items-center justify-center w-20 h-20 mx-auto mb-3 rounded-full shadow-lg bg-gradient-to-br from-blue-400 to-blue-600">
-                    <Mars className="flex-shrink-0 w-12 h-12 text-white" />
-                  </div>
+                  <div className="mb-3 text-5xl">👦</div>
                   <div
                     className={`font-semibold text-lg ${
                       profile.gender === "boy"
@@ -348,8 +344,11 @@ const Profile = () => {
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
-                  <div className="flex items-center justify-center w-20 h-20 mx-auto mb-3 rounded-full shadow-lg bg-gradient-to-br from-pink-400 to-pink-600">
-                    <Venus className="flex-shrink-0 w-12 h-12 text-white" />
+                  <div className="mb-3 flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 shadow-lg">
+                    <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9ZM19 9H14V4H5V21H19V9Z"/>
+                      <path d="M12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8ZM12 14C14.67 14 20 15.33 20 18V20H4V18C4 15.33 9.33 14 12 14Z"/>
+                    </svg>
                   </div>
                   <div
                     className={`font-semibold text-lg ${
@@ -380,7 +379,7 @@ const Profile = () => {
               </label>
               <p className="p-4 text-gray-600 rounded-lg bg-blue-50">
                 💡 아이의 특징을 담은 사진을 업로드하면 더욱 닮은 캐릭터로
-                동화를 만들어드려요
+                동화를 만들어드려요 (1장)
               </p>
 
               {previewImage && (

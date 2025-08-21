@@ -10,8 +10,6 @@ import {
   Check,
   ChevronLeft,
   Sparkles,
-  Mars,
-  Venus,
 } from "lucide-react";
 
 interface ProfileData {
@@ -319,9 +317,7 @@ const Profile = () => {
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
-                  <div className="flex items-center justify-center w-20 h-20 mx-auto mb-3 rounded-full shadow-lg bg-gradient-to-br from-blue-400 to-blue-600">
-                    <Mars className="flex-shrink-0 w-12 h-12 text-white" />
-                  </div>
+                  <div className="mb-3 text-5xl">👦</div>
                   <div
                     className={`font-semibold text-lg ${
                       profile.gender === "boy"
@@ -329,7 +325,7 @@ const Profile = () => {
                         : "text-gray-700"
                     }`}
                   >
-                    왕자님
+                    남자아이
                   </div>
                 </button>
 
@@ -348,9 +344,7 @@ const Profile = () => {
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
-                  <div className="flex items-center justify-center w-20 h-20 mx-auto mb-3 rounded-full shadow-lg bg-gradient-to-br from-pink-400 to-pink-600">
-                    <Venus className="flex-shrink-0 w-12 h-12 text-white" />
-                  </div>
+                  <div className="mb-3 text-5xl">👧</div>
                   <div
                     className={`font-semibold text-lg ${
                       profile.gender === "girl"
@@ -358,7 +352,7 @@ const Profile = () => {
                         : "text-gray-700"
                     }`}
                   >
-                    공주님
+                    여자아이
                   </div>
                 </button>
               </div>
@@ -380,7 +374,7 @@ const Profile = () => {
               </label>
               <p className="p-4 text-gray-600 rounded-lg bg-blue-50">
                 💡 아이의 특징을 담은 사진을 업로드하면 더욱 닮은 캐릭터로
-                동화를 만들어드려요
+                동화를 만들어드려요 (1장)
               </p>
 
               {previewImage && (

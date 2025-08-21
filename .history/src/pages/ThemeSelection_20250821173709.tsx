@@ -262,7 +262,7 @@ const ThemeSelection = () => {
             ? Array.from({ length: 5 }).map((_, index) => (
                 <div
                   key={index}
-                  className="p-6 bg-gray-200 border border-gray-400 rounded-lg animate-pulse"
+                  className="p-6 border border-gray-400 rounded-lg animate-pulse bg-gray-20"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gray-300 rounded-full"></div>

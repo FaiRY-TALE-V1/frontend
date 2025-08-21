@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- 🧚 요정 모양 직접 그리기 -->
+  <!-- 머리 -->
+  <circle cx="12" cy="8" r="4" fill="#FFB6C1"/>
+  
+  <!-- 몸통 -->
+  <path d="M8 12 L16 12 L14 20 L10 20 Z" fill="#FF69B4"/>
+  
+  <!-- 날개 -->
+  <path d="M2 10 Q4 8 6 10 Q4 12 2 10" fill="#FFD700" opacity="0.8"/>
+  <path d="M18 10 Q20 8 22 10 Q20 12 18 10" fill="#FFD700" opacity="0.8"/>
+  
+  <!-- 지팡이 -->
+  <line x1="20" y1="6" x2="22" y2="4" stroke="#8B4513" stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- 🧚 이모지 -->
+  <text x="12" y="18" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#FF69B4">🧚</text>
+</svg>

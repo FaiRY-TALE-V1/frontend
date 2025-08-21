@@ -183,38 +183,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scroll Down Button */}
-        <div className="absolute transform -translate-x-1/2 bottom-8 left-1/2">
-          <button
-            onClick={() => {
-              const howItWorksSection = document.querySelector(
-                "section:nth-of-type(2)"
-              );
-              if (howItWorksSection) {
-                howItWorksSection.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            className="flex flex-col items-center justify-center w-24 h-24 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
-          >
-            <div className="w-6 h-6 animate-bounce">
-              <svg
-                className="w-full h-full transition-transform duration-300 group-hover:translate-y-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
-            </div>
-          </button>
-        </div>
-
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -243,50 +211,60 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid gap-12 lg:grid-cols-3">
+          <div className="grid gap-16 lg:grid-cols-3">
             {[
               {
                 step: "1",
                 title: "아이 정보 입력",
                 description: "이름, 나이, 사진 등 기본 정보를 입력해주세요.",
+                icon: "👶",
+                bgColor: "bg-blue-50",
+                iconBg: "bg-blue-500",
               },
               {
                 step: "2",
                 title: "테마 선택",
-                description: "5개의 테마 중 마음에 드는 테마를 선택해주세요.",
+                description:
+                  "고도화된 AI가 입력된 정보를 바탕으로 아이에게 딱 맞는 이야기를 창작합니다.",
+                icon: "🤖",
+                bgColor: "bg-purple-50",
+                iconBg: "bg-purple-500",
               },
               {
                 step: "3",
                 title: "동화책 완성!",
-                description: "일러스트와 함께 동화책을 확인하고 저장하세요.",
+                description:
+                  "아름다운 일러스트와 함께 완성된 동화책을 확인하고 저장하세요.",
+                icon: "📖",
+                bgColor: "bg-emerald-50",
+                iconBg: "bg-emerald-500",
               },
             ].map((step, index) => (
-              <div key={index} className="relative group">
-                <div className="flex flex-col items-center p-8 text-center transition-all duration-300 border border-gray-300 shadow-sm rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-lg hover:-translate-y-1">
-                  {/* Step Number */}
-                  <div className="relative mb-6">
-                    <div className="flex items-center justify-center w-16 h-16 text-2xl font-bold text-white rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600">
+              <div key={index} className="relative">
+                <div className="flex flex-col items-center text-center">
+                  <div
+                    className={`relative mb-8 p-6 rounded-3xl ${step.bgColor}`}
+                  >
+                    <div className="mb-4 text-4xl">{step.icon}</div>
+                    <div
+                      className={`absolute flex items-center justify-center w-8 h-8 text-sm font-bold text-white rounded-full ${step.iconBg} -top-2 -right-2`}
+                    >
                       {step.step}
                     </div>
-                    <div className="absolute w-6 h-6 rounded-full -top-1 -right-1 bg-gradient-to-br from-emerald-400 to-teal-500 animate-pulse"></div>
                   </div>
 
-                  {/* Content */}
-                  <h3 className="mb-4 text-2xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600">
+                  <h3 className="mb-4 text-2xl font-bold text-gray-900">
                     {step.title}
                   </h3>
-                  <p className="max-w-sm text-base leading-relaxed text-gray-600">
+                  <p className="max-w-sm text-lg leading-relaxed text-gray-600">
                     {step.description}
                   </p>
                 </div>
 
-                {/* Arrow between steps */}
                 {index < 2 && (
-                  <div className="absolute hidden w-full transform -translate-y-1/2 lg:block top-1/2 left-full">
+                  <div className="absolute hidden w-full lg:block top-16 left-full">
                     <div className="flex items-center justify-center">
-                      <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 relative">
-                        <div className="absolute right-0 w-3 h-3 transform -translate-y-1/2 rounded-full top-1/2 bg-gradient-to-r from-blue-400 to-purple-500"></div>
-                      </div>
+                      <ArrowRight className="w-6 h-6 text-gray-300 transform translate-x-8" />
                     </div>
                   </div>
                 )}
