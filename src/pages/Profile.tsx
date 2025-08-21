@@ -232,7 +232,7 @@ const Profile = () => {
               <input
                 type="text"
                 value={profile.name}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setProfile((prev) => ({ ...prev, name: e.target.value }))
                 }
                 placeholder="예: 지우, 서준, 하은"
@@ -317,7 +317,13 @@ const Profile = () => {
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
-                  <div className="mb-3 text-5xl">👦</div>
+                  <div className="mb-3">
+                    <img 
+                      src="/icon-prince.png" 
+                      alt="왕자님" 
+                      className="w-16 h-16 mx-auto"
+                    />
+                  </div>
                   <div
                     className={`font-semibold text-lg ${
                       profile.gender === "boy"
@@ -325,7 +331,7 @@ const Profile = () => {
                         : "text-gray-700"
                     }`}
                   >
-                    남자아이
+                    왕자님
                   </div>
                 </button>
 
@@ -344,7 +350,13 @@ const Profile = () => {
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
-                  <div className="mb-3 text-5xl">👧</div>
+                  <div className="mb-3">
+                    <img 
+                      src="/icon-princess.png" 
+                      alt="공주님" 
+                      className="w-16 h-16 mx-auto"
+                    />
+                  </div>
                   <div
                     className={`font-semibold text-lg ${
                       profile.gender === "girl"
@@ -352,7 +364,7 @@ const Profile = () => {
                         : "text-gray-700"
                     }`}
                   >
-                    여자아이
+                    공주님
                   </div>
                 </button>
               </div>

@@ -274,10 +274,10 @@ const ThemeSelection = () => {
             : (apiThemes.length > 0 ? apiThemes : themes).map((theme) => (
                 <div
                   key={theme.value}
-                  className={`p-6 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
+                  className={`p-6 border-2 rounded-lg cursor-pointer transition-all duration-300 transform bg-white ${
                     selectedTheme === theme.value
-                      ? "border-blue-500 bg-blue-50 shadow-md"
-                      : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                      ? "border-blue-500 shadow-lg hover:shadow-xl hover:-translate-y-1"
+                      : "border-gray-200 hover:border-gray-300 hover:shadow-lg hover:-translate-y-1"
                   }`}
                   onClick={() => handleThemeSelect(theme.value)}
                 >
