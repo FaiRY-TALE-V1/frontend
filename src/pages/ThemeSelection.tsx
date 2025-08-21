@@ -104,7 +104,10 @@ const ThemeSelection = () => {
   const [isLoadingThemes, setIsLoadingThemes] = useState(true);
 
   useEffect(() => {
-    if (!canProceedToTheme) {
+    // localStorage에서 프로필 확인
+    const hasProfileInStorage = Boolean(localStorage.getItem("childProfile"));
+    
+    if (!canProceedToTheme && !hasProfileInStorage) {
       navigate("/profile");
       return;
     }
@@ -140,14 +143,26 @@ const ThemeSelection = () => {
         setIsLoadingThemes(true);
         console.log("테마 API 호출 시작...");
 
-        const response = await apiService.getThemes();
+        // 5초 타임아웃 설정
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('API 타임아웃')), 5000)
+        );
+
+        const apiPromise = apiService.getThemes();
+        
+        const response = await Promise.race([apiPromise, timeoutPromise]) as any;
         console.log("테마 API 응답:", response);
+        console.log("응답 타입:", typeof response);
+        console.log("response.success:", response.success);
+        console.log("response.data:", response.data);
 
         if (response.success && response.data?.themes) {
           console.log("API 테마 사용:", response.data.themes);
+          console.log("API 테마 개수:", response.data.themes.length);
           setApiThemes(response.data.themes);
         } else {
           console.warn("API 테마 로드 실패, 기본 테마 사용");
+          console.log("기본 테마 개수:", themes.length);
           setApiThemes(themes);
         }
       } catch (error) {
@@ -168,12 +183,21 @@ const ThemeSelection = () => {
   };
 
   const handleNext = () => {
-    if (!selectedTheme || !childProfile) return;
+    console.log("ThemeSelection handleNext 시작");
+    console.log("selectedTheme:", selectedTheme);
+    console.log("childProfile:", childProfile);
+    
+    if (!selectedTheme || !childProfile) {
+      console.log("테마 또는 프로필 없음 - 실행 중단");
+      return;
+    }
 
     setAppSelectedTheme(selectedTheme as any);
     localStorage.setItem("selectedTheme", selectedTheme);
     console.log("다음 단계로:", selectedTheme);
+    console.log("스토리 페이지로 이동 시도...");
     navigate("/story");
+    console.log("navigate 호출 완료");
   };
 
 
@@ -226,6 +250,12 @@ const ThemeSelection = () => {
 
         {/* Theme Grid */}
         <div className="space-y-4 mb-12">
+          {(() => {
+            console.log("렌더링 상태 - isLoadingThemes:", isLoadingThemes);
+            console.log("렌더링 상태 - apiThemes.length:", apiThemes.length);
+            console.log("렌더링 상태 - themes.length:", themes.length);
+            return null;
+          })()}
           {isLoadingThemes
             ? Array.from({ length: 5 }).map((_, index) => (
                 <div

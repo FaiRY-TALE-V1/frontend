@@ -19,7 +19,8 @@ export default function StoryGeneration() {
   const [error, setError] = useState<string | null>(null);
 
   // 유효성 검사
-  const canProceedToStory = state.childProfile && state.selectedTheme;
+  const canProceedToStory = (state.childProfile && state.selectedTheme) || 
+    (localStorage.getItem("childProfile") && localStorage.getItem("selectedTheme"));
 
   // 동화 생성
   useEffect(() => {

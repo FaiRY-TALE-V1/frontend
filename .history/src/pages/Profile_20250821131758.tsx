@@ -151,13 +151,7 @@ const Profile = () => {
   };
 
   const handleNext = () => {
-    console.log("handleNext 함수 시작");
-    console.log("현재 프로필 상태:", profile);
-    
-    if (!validateForm()) {
-      console.log("폼 검증 실패");
-      return;
-    }
+    if (!validateForm()) return;
 
     const childProfile = {
       name: profile.name,
@@ -169,9 +163,7 @@ const Profile = () => {
     // 로컬스토리지에만 저장 (상태관리 불필요)
     localStorage.setItem("childProfile", JSON.stringify(childProfile));
     console.log("프로필 저장:", childProfile);
-    console.log("테마 페이지로 이동 시도...");
     navigate("/theme");
-    console.log("navigate 호출 완료");
   };
 
   const ageEmojis: { [key: number]: string } = {
@@ -453,9 +445,9 @@ const Profile = () => {
           <div className="flex justify-center pt-6 mt-8">
             <button
               onClick={handleNext}
-              disabled={!profile.name.trim() || profile.age === 0 || profile.gender === ""}
+              disabled={!profile.name.trim()}
               className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform ${
-                !profile.name.trim() || profile.age === 0 || profile.gender === ""
+                !profile.name.trim()
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 hover:scale-105 shadow-lg hover:shadow-xl"
               }`}

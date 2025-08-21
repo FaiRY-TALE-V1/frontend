@@ -104,6 +104,7 @@ const Profile = () => {
       } catch (serverError) {
         console.log("서버 업로드 실패, 로컬 미리보기 사용");
       }
+
     } catch (error: any) {
       console.error("사진 업로드 실패:", error);
       setErrors({
@@ -151,13 +152,7 @@ const Profile = () => {
   };
 
   const handleNext = () => {
-    console.log("handleNext 함수 시작");
-    console.log("현재 프로필 상태:", profile);
-    
-    if (!validateForm()) {
-      console.log("폼 검증 실패");
-      return;
-    }
+    if (!validateForm()) return;
 
     const childProfile = {
       name: profile.name,
@@ -169,9 +164,7 @@ const Profile = () => {
     // 로컬스토리지에만 저장 (상태관리 불필요)
     localStorage.setItem("childProfile", JSON.stringify(childProfile));
     console.log("프로필 저장:", childProfile);
-    console.log("테마 페이지로 이동 시도...");
     navigate("/theme");
-    console.log("navigate 호출 완료");
   };
 
   const ageEmojis: { [key: number]: string } = {
@@ -453,9 +446,9 @@ const Profile = () => {
           <div className="flex justify-center pt-6 mt-8">
             <button
               onClick={handleNext}
-              disabled={!profile.name.trim() || profile.age === 0 || profile.gender === ""}
+              disabled={!profile.name.trim()}
               className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform ${
-                !profile.name.trim() || profile.age === 0 || profile.gender === ""
+                !profile.name.trim()
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 hover:scale-105 shadow-lg hover:shadow-xl"
               }`}
@@ -474,76 +467,28 @@ const Profile = () => {
       </div>
 
       {/* 배경 데코레이션 아이콘들 */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         {/* 왼쪽 상단 */}
-        <img
-          src="/star.svg"
-          alt="star"
-          className="absolute w-6 h-6 top-20 left-10 opacity-30"
-        />
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute w-8 h-8 top-32 left-32 opacity-20"
-        />
-
+        <img src="/star.svg" alt="star" className="absolute top-20 left-10 w-6 h-6 opacity-30" />
+        <img src="/circle.svg" alt="circle" className="absolute top-32 left-32 w-8 h-8 opacity-20" />
+        
         {/* 오른쪽 상단 */}
-        <img
-          src="/spark.svg"
-          alt="spark"
-          className="absolute w-5 h-5 top-16 right-16 opacity-40"
-        />
-        <img
-          src="/sun.svg"
-          alt="sun"
-          className="absolute w-10 h-10 opacity-25 top-40 right-8"
-        />
-
+        <img src="/spark.svg" alt="spark" className="absolute top-16 right-16 w-5 h-5 opacity-40" />
+        <img src="/sun.svg" alt="sun" className="absolute top-40 right-8 w-10 h-10 opacity-25" />
+        
         {/* 왼쪽 중간 */}
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute w-4 h-4 top-64 left-8 opacity-30"
-        />
-        <img
-          src="/spark.svg"
-          alt="spark"
-          className="absolute w-6 h-6 top-80 left-24 opacity-35"
-        />
-
+        <img src="/circle.svg" alt="circle" className="absolute top-64 left-8 w-4 h-4 opacity-30" />
+        <img src="/spark.svg" alt="spark" className="absolute top-80 left-24 w-6 h-6 opacity-35" />
+        
         {/* 오른쪽 중간 */}
-        <img
-          src="/star.svg"
-          alt="star"
-          className="absolute opacity-25 top-72 right-20 w-7 h-7"
-        />
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute w-5 h-5 top-96 right-12 opacity-40"
-        />
-
+        <img src="/star.svg" alt="star" className="absolute top-72 right-20 w-7 h-7 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute top-96 right-12 w-5 h-5 opacity-40" />
+        
         {/* 하단 */}
-        <img
-          src="/sun.svg"
-          alt="sun"
-          className="absolute w-8 h-8 bottom-80 left-16 opacity-20"
-        />
-        <img
-          src="/spark.svg"
-          alt="spark"
-          className="absolute w-4 h-4 bottom-72 right-24 opacity-30"
-        />
-        <img
-          src="/star.svg"
-          alt="star"
-          className="absolute w-6 h-6 opacity-25 bottom-64 left-40"
-        />
-        <img
-          src="/circle.svg"
-          alt="circle"
-          className="absolute bottom-56 right-32 w-9 h-9 opacity-15"
-        />
+        <img src="/sun.svg" alt="sun" className="absolute bottom-80 left-16 w-8 h-8 opacity-20" />
+        <img src="/spark.svg" alt="spark" className="absolute bottom-72 right-24 w-4 h-4 opacity-30" />
+        <img src="/star.svg" alt="star" className="absolute bottom-64 left-40 w-6 h-6 opacity-25" />
+        <img src="/circle.svg" alt="circle" className="absolute bottom-56 right-32 w-9 h-9 opacity-15" />
       </div>
 
       {/* 하단 grass SVG */}

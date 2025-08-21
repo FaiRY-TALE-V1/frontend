@@ -15,11 +15,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const { canProceedToTheme, canProceedToStory } = useAppContext();
 
-  if (requireTheme && !canProceedToStory) {
+  // localStorage에서 프로필과 테마 확인
+  const hasProfileInStorage = Boolean(localStorage.getItem("childProfile"));
+  const hasThemeInStorage = Boolean(localStorage.getItem("selectedTheme"));
+
+  if (requireTheme && !canProceedToStory && !hasThemeInStorage) {
     return <Navigate to="/theme" replace />;
   }
 
-  if (requireProfile && !canProceedToTheme) {
+  if (requireProfile && !canProceedToTheme && !hasProfileInStorage) {
     return <Navigate to="/profile" replace />;
   }
 
