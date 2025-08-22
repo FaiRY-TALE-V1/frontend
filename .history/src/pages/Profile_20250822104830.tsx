@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiService } from "../services/api";
-import { useAppContext } from "../context/AppContext";
 import {
   User,
   Calendar,
@@ -10,10 +9,9 @@ import {
   Camera,
   Check,
   ChevronLeft,
+  Sparkles,
   Mars,
   Venus,
-  Sun,
-  Moon,
 } from "lucide-react";
 
 interface ProfileData {
@@ -32,7 +30,6 @@ interface ErrorData {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { state, toggleDarkMode } = useAppContext();
   const [profile, setProfile] = useState<ProfileData>({
     name: "",
     age: 0,
@@ -188,30 +185,22 @@ const Profile = () => {
   };
 
   return (
-    <div className={`relative min-h-screen ${state.isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className="relative min-h-screen bg-white">
       {/* 헤더 */}
-      <div className={`relative z-20 px-4 py-6 shadow-sm ${state.isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+      <div className="relative z-20 px-4 py-6 bg-white shadow-sm">
         <button
           onClick={() => navigate("/")}
-          className={`absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 ${state.isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
         >
-          <ChevronLeft className={`w-5 h-5 ${state.isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
+          <ChevronLeft className="w-5 h-5 text-gray-600" />
         </button>
-        
-        <button
-          onClick={toggleDarkMode}
-          className={`absolute p-2 transition-colors transform -translate-y-1/2 rounded-full right-4 top-1/2 ${state.isDarkMode ? 'hover:bg-gray-700 text-yellow-400' : 'hover:bg-gray-100 text-gray-600'}`}
-        >
-          {state.isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
-        
         <div className="text-center">
-          <h1 className={`text-xl font-bold ${state.isDarkMode ? 'text-white' : 'text-gray-800'}`}>프로필 설정</h1>
+          <h1 className="text-xl font-bold text-gray-800">프로필 설정</h1>
           <div className="flex justify-center mt-2">
             <div className="flex space-x-2">
-              <div className="w-8 h-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full"></div>
-              <div className={`w-8 h-1.5 rounded-full ${state.isDarkMode ? 'bg-gray-600' : 'bg-gray-200'}`}></div>
-              <div className={`w-8 h-1.5 rounded-full ${state.isDarkMode ? 'bg-gray-600' : 'bg-gray-200'}`}></div>
+              <div className="w-8 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
             </div>
           </div>
         </div>
@@ -221,20 +210,23 @@ const Profile = () => {
         <div className="max-w-2xl mx-auto">
           {/* 메인 타이틀 */}
           <div className="mb-8 text-center">
-            <h2 className={`mb-2 text-3xl font-bold ${state.isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+            <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
+              <Sparkles className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="mb-2 text-3xl font-bold text-gray-800">
               우리 아이를 소개해주세요
             </h2>
-            <p className={`text-lg ${state.isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className="text-lg text-gray-600">
               아이의 정보를 입력하시면 더욱 특별한 동화를 만들어드려요
             </p>
           </div>
 
           {/* 프로필 입력 폼 */}
-          <div className={`p-8 space-y-8 border-2 shadow-xl rounded-2xl ${state.isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}`}>
+          <div className="p-8 space-y-8 bg-white border-2 border-gray-200 shadow-xl rounded-2xl">
             {/* 아이 이름 */}
             <div className="space-y-3">
-              <label className={`flex items-center text-lg font-semibold ${state.isDarkMode ? 'text-white' : 'text-gray-800'}`}>
-                <div className={`flex items-center justify-center w-6 h-6 mr-3 rounded-full ${state.isDarkMode ? 'bg-blue-800' : 'bg-blue-100'}`}>
+              <label className="flex items-center text-lg font-semibold text-gray-800">
+                <div className="flex items-center justify-center w-6 h-6 mr-3 bg-blue-100 rounded-full">
                   <User className="w-4 h-4 text-blue-600" />
                 </div>
                 아이 이름 *
@@ -249,8 +241,6 @@ const Profile = () => {
                 className={`w-full px-4 py-4 border-2 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200 text-lg ${
                   errors.name
                     ? "border-red-500 bg-red-50"
-                    : state.isDarkMode 
-                    ? "border-gray-600 bg-gray-700 focus:bg-gray-600 text-white placeholder-gray-400"
                     : "border-gray-200 bg-gray-50 focus:bg-white"
                 }`}
               />
@@ -474,12 +464,12 @@ const Profile = () => {
                 profile.age === 0 ||
                 profile.gender === ""
               }
-              className={`px-8 py-3 text-base font-medium transition-all duration-300 transform shadow-lg rounded-lg ${
+              className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform ${
                 !profile.name.trim() ||
                 profile.age === 0 ||
                 profile.gender === ""
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 hover:shadow-xl hover:-translate-y-0.5 hover:scale-105"
+                  : "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 hover:scale-105 shadow-lg hover:shadow-xl"
               }`}
             >
               테마 선택하기 →
@@ -501,70 +491,70 @@ const Profile = () => {
         <img
           src="/star.svg"
           alt="star"
-          className="absolute w-6 h-6 top-20 left-10 opacity-90"
+          className="absolute w-6 h-6 top-20 left-10 opacity-70"
         />
         <img
           src="/circle.svg"
           alt="circle"
-          className="absolute w-8 h-8 top-32 left-32 opacity-85"
+          className="absolute w-8 h-8 top-32 left-32 opacity-60"
         />
 
         {/* 오른쪽 상단 */}
         <img
           src="/spark.svg"
           alt="spark"
-          className="absolute w-5 h-5 top-16 right-16 opacity-95"
+          className="absolute w-5 h-5 top-16 right-16 opacity-80"
         />
         <img
           src="/sun.svg"
           alt="sun"
-          className="absolute w-10 h-10 opacity-90 top-40 right-8"
+          className="absolute w-10 h-10 opacity-65 top-40 right-8"
         />
 
         {/* 왼쪽 중간 */}
         <img
           src="/circle.svg"
           alt="circle"
-          className="absolute w-4 h-4 top-64 left-8 opacity-90"
+          className="absolute w-4 h-4 top-64 left-8 opacity-70"
         />
         <img
           src="/spark.svg"
           alt="spark"
-          className="absolute w-6 h-6 opacity-95 top-80 left-24"
+          className="absolute w-6 h-6 top-80 left-24 opacity-75"
         />
 
         {/* 오른쪽 중간 */}
         <img
           src="/star.svg"
           alt="star"
-          className="absolute opacity-90 top-72 right-20 w-7 h-7"
+          className="absolute opacity-65 top-72 right-20 w-7 h-7"
         />
         <img
           src="/circle.svg"
           alt="circle"
-          className="absolute w-5 h-5 top-96 right-12 opacity-95"
+          className="absolute w-5 h-5 top-96 right-12 opacity-80"
         />
 
         {/* 하단 */}
         <img
           src="/sun.svg"
           alt="sun"
-          className="absolute w-8 h-8 bottom-80 left-16 opacity-85"
+          className="absolute w-8 h-8 bottom-80 left-16 opacity-60"
         />
         <img
           src="/spark.svg"
           alt="spark"
-          className="absolute w-4 h-4 bottom-72 right-24 opacity-90"
+          className="absolute w-4 h-4 bottom-72 right-24 opacity-70"
         />
         <img
           src="/star.svg"
           alt="star"
-          className="absolute w-6 h-6 opacity-90 bottom-64 left-40"
+          className="absolute w-6 h-6 opacity-65 bottom-64 left-40"
         />
         <img
           src="/circle.svg"
           alt="circle"
-          className="absolute bottom-56 right-32 w-9 h-9 opacity-80"
+          className="absolute bottom-56 right-32 w-9 h-9 opacity-55"
         />
       </div>
 

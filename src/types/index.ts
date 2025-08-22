@@ -110,6 +110,7 @@ export interface AppState {
   currentScene: number;
   isLoading: boolean;
   error?: string;
+  isDarkMode: boolean;
 }
 
 

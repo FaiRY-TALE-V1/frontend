@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import { apiService } from "../services/api";
-import { Check, ChevronLeft, Sun, Moon } from "lucide-react";
+import { Check, ChevronLeft } from "lucide-react";
 import { addKoreanParticle } from "../utils/koreanParticle";
 
 const themes = [
@@ -95,7 +95,6 @@ const ThemeSelection = () => {
     state,
     setSelectedTheme: setAppSelectedTheme,
     canProceedToTheme,
-    toggleDarkMode,
   } = useAppContext();
   const [selectedTheme, setSelectedTheme] = useState("");
   const [childProfile, setChildProfile] = useState<{ name: string } | null>(
@@ -216,30 +215,22 @@ const ThemeSelection = () => {
   }
 
   return (
-    <div className={`relative min-h-screen ${state.isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className="relative min-h-screen">
       {/* Header */}
-      <div className={`relative z-20 px-4 py-6 shadow-sm ${state.isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+      <div className="relative z-20 px-4 py-6 bg-white shadow-sm">
         <button
           onClick={() => navigate("/profile")}
-          className={`absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 ${state.isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          className="absolute p-2 transition-colors transform -translate-y-1/2 rounded-full left-4 top-1/2 hover:bg-gray-100"
         >
-          <ChevronLeft className={`w-5 h-5 ${state.isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
+          <ChevronLeft className="w-5 h-5 text-gray-600" />
         </button>
-        
-        <button
-          onClick={toggleDarkMode}
-          className={`absolute p-2 transition-colors transform -translate-y-1/2 rounded-full right-4 top-1/2 ${state.isDarkMode ? 'hover:bg-gray-700 text-yellow-400' : 'hover:bg-gray-100 text-gray-600'}`}
-        >
-          {state.isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
-        
         <div className="text-center">
-          <h1 className={`text-xl font-bold ${state.isDarkMode ? 'text-white' : 'text-gray-800'}`}>테마 선택</h1>
+          <h1 className="text-xl font-bold text-gray-800">테마 선택</h1>
           <div className="flex justify-center mt-2">
             <div className="flex space-x-2">
-              <div className={`w-8 h-1.5 rounded-full ${state.isDarkMode ? 'bg-gray-600' : 'bg-gray-200'}`}></div>
-              <div className="w-8 h-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full"></div>
-              <div className={`w-8 h-1.5 rounded-full ${state.isDarkMode ? 'bg-gray-600' : 'bg-gray-200'}`}></div>
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+              <div className="w-8 h-1.5 bg-gray-200 rounded-full"></div>
             </div>
           </div>
         </div>
@@ -248,10 +239,10 @@ const ThemeSelection = () => {
       <div className="relative z-10 max-w-4xl px-6 py-8 mx-auto">
         {/* Title Section */}
         <div className="mb-12 text-center">
-          <h2 className={`mb-4 text-2xl font-bold ${state.isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+          <h2 className="mb-4 text-2xl font-bold text-gray-800">
             어떤 주제의 동화를 만들까요?
           </h2>
-          <p className={state.isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
+          <p className="text-gray-600">
             <span className="font-medium text-blue-600">
               {addKoreanParticle(childProfile.name, "을")}
             </span>{" "}
@@ -271,13 +262,13 @@ const ThemeSelection = () => {
             ? Array.from({ length: 5 }).map((_, index) => (
                 <div
                   key={index}
-                  className={`p-6 border rounded-lg animate-pulse ${state.isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-200 border-gray-400'}`}
+                  className="p-6 bg-gray-200 border border-gray-400 rounded-lg animate-pulse"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className={`w-12 h-12 rounded-full ${state.isDarkMode ? 'bg-gray-600' : 'bg-gray-300'}`}></div>
+                    <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
                     <div className="flex-1 space-y-2">
-                      <div className={`w-32 h-5 rounded ${state.isDarkMode ? 'bg-gray-600' : 'bg-gray-300'}`}></div>
-                      <div className={`w-full h-4 rounded ${state.isDarkMode ? 'bg-gray-600' : 'bg-gray-300'}`}></div>
+                      <div className="w-32 h-5 bg-gray-300 rounded"></div>
+                      <div className="w-full h-4 bg-gray-300 rounded"></div>
                     </div>
                   </div>
                 </div>
@@ -287,11 +278,7 @@ const ThemeSelection = () => {
                   key={theme.value}
                   className={`p-6 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
                     selectedTheme === theme.value
-                      ? state.isDarkMode 
-                        ? "border-blue-400 bg-blue-900/30 shadow-md"
-                        : "border-blue-500 bg-blue-50 shadow-md"
-                      : state.isDarkMode
-                      ? "border-gray-600 hover:border-gray-500 hover:shadow-sm bg-gray-800"
+                      ? "border-blue-500 bg-blue-50 shadow-md"
                       : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                   }`}
                   onClick={() => handleThemeSelect(theme.value)}
@@ -300,7 +287,7 @@ const ThemeSelection = () => {
                     <div className="text-4xl">{theme.emoji}</div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h3 className={`text-lg font-semibold ${state.isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+                        <h3 className="text-lg font-semibold text-gray-800">
                           {theme.title}
                         </h3>
                         {selectedTheme === theme.value && (
@@ -309,7 +296,7 @@ const ThemeSelection = () => {
                           </div>
                         )}
                       </div>
-                      <p className={`mt-2 leading-relaxed ${state.isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                      <p className="mt-2 leading-relaxed text-gray-600">
                         {theme.description}
                       </p>
                     </div>
@@ -323,18 +310,18 @@ const ThemeSelection = () => {
           {selectedTheme ? (
             <button
               onClick={handleNext}
-              className="px-8 py-3 text-base font-medium text-white transition-all duration-300 transform shadow-lg rounded-lg bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 hover:shadow-xl hover:-translate-y-0.5 hover:scale-105"
+              className="px-8 py-3 font-semibold text-white transition-all duration-200 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 hover:shadow-xl"
             >
               동화 만들기 시작 →
             </button>
           ) : (
-            <div className={`text-center ${state.isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>테마를 선택해주세요</div>
+            <div className="text-center text-gray-500">테마를 선택해주세요</div>
           )}
         </div>
 
         {/* Progress text */}
-        <div className="px-8 pb-8 mt-8 text-center">
-          <p className={`text-sm ${state.isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>2단계 / 3단계 - 테마 선택</p>
+        <div className="mt-8 text-center px-8 pb-8">
+          <p className="text-sm text-gray-500">2단계 / 3단계 - 테마 선택</p>
         </div>
       </div>
 

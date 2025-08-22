@@ -26,7 +26,6 @@ export default function StoryGeneration() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] =
     useState("AI가 동화를 만들고 있어요...");
-  const [progress, setProgress] = useState(0);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [audioRef, setAudioRef] = useState<HTMLAudioElement | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +39,6 @@ export default function StoryGeneration() {
   // 동화 생성
   useEffect(() => {
     let messageInterval: NodeJS.Timeout | null = null;
-    let progressInterval: NodeJS.Timeout | null = null;
     let isCancelled = false;
 
     const generateStory = async () => {
@@ -99,27 +97,6 @@ export default function StoryGeneration() {
         ];
 
         let messageIndex = 0;
-        let progressValue = 0;
-        
-        // 프로그레스 바 애니메이션: 처음엔 빠르게, 나중엔 천천히
-        progressInterval = setInterval(() => {
-          if (isCancelled) return;
-          
-          if (progressValue < 60) {
-            // 처음 60%까지는 빠르게 (2초 간격으로 5% 증가)
-            progressValue += 5;
-          } else if (progressValue < 90) {
-            // 60%~90%까지는 중간 속도 (2초 간격으로 2% 증가)
-            progressValue += 2;
-          } else if (progressValue < 98) {
-            // 90%~98%까지는 느리게 (2초 간격으로 1% 증가)
-            progressValue += 1;
-          }
-          // 98%에서 멈춰있다가 API 완료되면 100%로
-          
-          setProgress(progressValue);
-        }, 2000);
-
         messageInterval = setInterval(() => {
           if (isCancelled) return;
           messageIndex = (messageIndex + 1) % loadingMessages.length;
@@ -142,25 +119,18 @@ export default function StoryGeneration() {
           clearInterval(messageInterval);
           messageInterval = null;
         }
-        
-        if (progressInterval) {
-          clearInterval(progressInterval);
-        }
 
         if (isCancelled) return;
 
         if (response.success && response.data) {
           setStory(response.data);
           setCurrentStory(response.data);
-          
-          // 100% 완료 애니메이션
-          setProgress(100);
 
           setTimeout(() => {
             if (!isCancelled) {
               setIsLoading(false);
             }
-          }, 500); // 100% 완료 후 잠시 보여주고 넘어가기
+          }, 100);
         } else {
           throw new Error(response.error || "API 응답 오류");
         }
@@ -179,9 +149,6 @@ export default function StoryGeneration() {
       if (messageInterval) {
         clearInterval(messageInterval);
         messageInterval = null;
-      }
-      if (progressInterval) {
-        clearInterval(progressInterval);
       }
     };
   }, [state, navigate, canProceedToStory, setCurrentStory]);
@@ -321,11 +288,11 @@ export default function StoryGeneration() {
   // 로딩 화면
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-emerald-200 via-teal-100 to-cyan-200">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-200 via-pink-100 to-blue-200">
         <div className="text-center">
           <div className="relative mb-8">
             <div className="w-20 h-20 mx-auto mb-4">
-              <Loader2 className="w-full h-full text-emerald-500 animate-spin" />
+              <Loader2 className="w-full h-full text-purple-500 animate-spin" />
             </div>
           </div>
           <h2 className="mb-4 text-3xl font-bold text-gray-800">
@@ -334,20 +301,6 @@ export default function StoryGeneration() {
           <p className="mb-6 text-lg text-gray-600">
             AI가 맞춤형 동화를 생성하고 있습니다
           </p>
-          
-          {/* 프로그레스 바 */}
-          <div className="w-full max-w-md mx-auto mb-4">
-            <div className="flex justify-between mb-2">
-              <span className="text-sm font-medium text-emerald-700">진행률</span>
-              <span className="text-sm font-medium text-emerald-700">{progress}%</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                className="bg-gradient-to-r from-emerald-400 to-teal-500 h-3 rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-          </div>
         </div>
       </div>
     );
@@ -358,7 +311,7 @@ export default function StoryGeneration() {
   const currentSceneData = story.story.scenes[currentScene];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-200 via-teal-100 to-cyan-200">
+    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-pink-100 to-blue-200">
       {/* 메인 콘텐츠 - 아이들을 위한 깔끔한 레이아웃 */}
       <div className="relative flex h-screen pt-10 pb-10">
         {/* 왼쪽 이전 버튼 */}
@@ -366,7 +319,7 @@ export default function StoryGeneration() {
           <button
             onClick={goToPreviousScene}
             disabled={currentScene === 0}
-            className="w-16 h-16 text-white transition-all duration-300 rounded-full shadow-lg bg-gradient-to-r from-emerald-400 to-teal-400 hover:scale-110 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
+            className="w-16 h-16 text-white transition-all duration-300 rounded-full shadow-lg bg-gradient-to-r from-blue-400 to-purple-400 hover:scale-110 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-8 h-8 mx-auto" />
           </button>
@@ -380,12 +333,12 @@ export default function StoryGeneration() {
               <div className="relative h-full">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="relative max-w-full max-h-full">
-                    <div className="relative p-6 bg-white border-4 border-emerald-300 shadow-2xl rounded-3xl">
+                    <div className="relative p-6 bg-white border-4 border-purple-300 shadow-2xl rounded-3xl">
                       {currentSceneData.image_url ? (
                         <img
                           src={currentSceneData.image_url}
                           alt={`Scene ${currentScene + 1}`}
-                          className="object-contain w-full max-w-2xl h-auto max-h-[500px] rounded-2xl border-2 border-emerald-200"
+                          className="object-contain w-full max-w-2xl h-auto max-h-[500px] rounded-2xl border-2 border-purple-200"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = `https://picsum.photos/600/600?random=${
@@ -394,7 +347,7 @@ export default function StoryGeneration() {
                           }}
                         />
                       ) : (
-                        <div className="flex items-center justify-center w-full border-2 border-emerald-200 h-96 rounded-2xl bg-gradient-to-br from-emerald-300 to-teal-300">
+                        <div className="flex items-center justify-center w-full border-2 border-purple-200 h-96 rounded-2xl bg-gradient-to-br from-purple-300 to-pink-300">
                           <div className="text-center text-white">
                             <BookOpen className="w-20 h-20 mx-auto mb-4" />
                             <p className="text-2xl font-bold">
@@ -405,7 +358,7 @@ export default function StoryGeneration() {
                       )}
 
                       {/* 페이지 번호 */}
-                      <div className="absolute px-4 py-2 text-lg font-bold text-white rounded-full shadow-lg -top-2 -left-2 bg-gradient-to-r from-emerald-500 to-teal-500">
+                      <div className="absolute px-4 py-2 text-lg font-bold text-white rounded-full shadow-lg -top-2 -left-2 bg-gradient-to-r from-pink-500 to-purple-500">
                         {currentScene + 1}
                       </div>
                     </div>
@@ -418,17 +371,17 @@ export default function StoryGeneration() {
             <div className="w-2/5">
               <div className="relative h-full">
                 <div className="absolute inset-0 flex flex-col justify-center">
-                  <div className="relative p-8 bg-white border-4 border-emerald-300 shadow-2xl rounded-3xl">
+                  <div className="relative p-8 bg-white border-4 border-purple-300 shadow-2xl rounded-3xl">
                     {/* 제목 (첫 번째 장면만) */}
                     {currentScene === 0 && (
                       <div className="mb-6 text-center">
-                        <h1 className="mb-4 text-4xl font-bold text-emerald-800">
+                        <h1 className="mb-4 text-4xl font-bold text-purple-800">
                           {story.story.title}
                         </h1>
                         <div className="flex items-center justify-center space-x-2">
-                          <div className="w-12 h-1 bg-emerald-400 rounded-full"></div>
+                          <div className="w-12 h-1 bg-purple-400 rounded-full"></div>
                           <span className="text-2xl">📚</span>
-                          <div className="w-12 h-1 bg-emerald-400 rounded-full"></div>
+                          <div className="w-12 h-1 bg-purple-400 rounded-full"></div>
                         </div>
                       </div>
                     )}
@@ -463,7 +416,7 @@ export default function StoryGeneration() {
                             <Play className="w-8 h-8 ml-1" />
                           )}
                         </button>
-                        <p className="mt-2 text-sm font-semibold text-emerald-600">
+                        <p className="mt-2 text-sm font-semibold text-purple-600">
                           {isAudioPlaying ? "일시정지" : "들려줘"}
                         </p>
                       </div>
@@ -480,7 +433,7 @@ export default function StoryGeneration() {
           <button
             onClick={goToNextScene}
             disabled={currentScene === story.story.scenes.length - 1}
-            className="w-16 h-16 text-white transition-all duration-300 rounded-full shadow-lg bg-gradient-to-r from-teal-400 to-emerald-400 hover:scale-110 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
+            className="w-16 h-16 text-white transition-all duration-300 rounded-full shadow-lg bg-gradient-to-r from-purple-400 to-pink-400 hover:scale-110 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
           >
             <ChevronRight className="w-8 h-8 mx-auto" />
           </button>
@@ -495,10 +448,10 @@ export default function StoryGeneration() {
               key={index}
               className={`w-4 h-4 rounded-full transition-all duration-300 ${
                 index === currentScene
-                  ? "bg-emerald-500 scale-125"
+                  ? "bg-purple-500 scale-125"
                   : index < currentScene
-                  ? "bg-teal-400"
-                  : "bg-white border-2 border-emerald-300"
+                  ? "bg-green-400"
+                  : "bg-white border-2 border-purple-300"
               }`}
               onClick={() => handleSceneChange(index)}
             />

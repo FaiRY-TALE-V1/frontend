@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, ArrowRight, Menu, X, Sun, Moon } from "lucide-react";
-import { useAppContext } from "../context/AppContext";
+import { Sparkles, ArrowRight, Menu, X } from "lucide-react";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { state, toggleDarkMode } = useAppContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -20,38 +18,31 @@ const Home = () => {
   };
 
   return (
-    <div className={`min-h-screen ${state.isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${state.isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-b shadow-sm`}>
+      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b border-gray-200 shadow-sm">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-3">
               <div className="flex items-center justify-center rounded-lg shadow-sm w-9 h-9 bg-gradient-to-r from-emerald-600 to-teal-600">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className={`text-xl font-semibold tracking-tight ${state.isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <span className="text-xl font-semibold tracking-tight text-gray-900">
                 FaiRY TALE
               </span>
             </div>
 
             <div className="flex items-center space-x-4">
               <button
-                onClick={toggleDarkMode}
-                className={`p-2 rounded-lg transition-all duration-300 ${state.isDarkMode ? 'text-yellow-400 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'}`}
-              >
-                {state.isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
-              
-              <button
                 onClick={handleStartClick}
-                className="px-6 py-2.5 text-sm font-medium text-white transition-all duration-300 transform shadow-lg rounded-lg bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 hover:shadow-xl hover:-translate-y-0.5 hover:scale-105"
+                className="px-6 py-2.5 text-sm font-medium text-white transition-all duration-200 bg-emerald-600 rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
               >
                 시작하기
               </button>
 
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 md:hidden transition-colors ${state.isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
+                className="p-2 text-gray-600 md:hidden hover:text-gray-900"
               >
                 {isMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -64,15 +55,15 @@ const Home = () => {
         </div>
 
         {isMenuOpen && (
-          <div className={`border-t shadow-lg md:hidden ${state.isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <div className="bg-white border-t border-gray-200 shadow-lg md:hidden">
             <div className="px-6 py-4 space-y-3">
-              <button className={`block w-full py-2 text-sm font-medium text-left ${state.isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <button className="block w-full py-2 text-sm font-medium text-left text-gray-700">
                 서비스 소개
               </button>
-              <button className={`block w-full py-2 text-sm font-medium text-left ${state.isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <button className="block w-full py-2 text-sm font-medium text-left text-gray-700">
                 예시 보기
               </button>
-              <button className={`block w-full py-2 text-sm font-medium text-left ${state.isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              <button className="block w-full py-2 text-sm font-medium text-left text-gray-700">
                 고객 지원
               </button>
             </div>
@@ -84,77 +75,68 @@ const Home = () => {
       <section
         className="relative flex items-center min-h-screen pt-20 pb-16 overflow-hidden"
         style={{
-          background: state.isDarkMode 
-            ? "linear-gradient(135deg, #1f2937 0%, #111827 50%, #0f172a 100%)"
-            : "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)",
+          background:
+            "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)",
         }}
       >
         {/* Floating decorative elements */}
-        <div className="absolute top-20 right-10 opacity-80">
-          <img
-            src="/star.svg"
-            alt="star"
-            className="w-8 h-8"
+        <div className="absolute top-20 right-10 opacity-30">
+          <div
+            className="w-4 h-4 bg-yellow-300 rounded-full"
             style={{
               animation: "float 3s ease-in-out infinite",
               animationDelay: "0s",
             }}
-          />
+          ></div>
         </div>
-        <div className="absolute opacity-75 top-32 right-32">
-          <img
-            src="/sun.svg"
-            alt="sun"
-            className="w-10 h-10"
+        <div className="absolute opacity-25 top-32 right-32">
+          <div
+            className="w-6 h-6 bg-pink-300 rounded-full"
             style={{
               animation: "float 3s ease-in-out infinite",
               animationDelay: "1s",
             }}
-          />
+          ></div>
         </div>
-        <div className="absolute opacity-70 bottom-40 left-20">
-          <img
-            src="/circle.svg"
-            alt="circle"
-            className="w-6 h-6"
+        <div className="absolute bottom-40 left-20 opacity-20">
+          <div
+            className="w-8 h-8 bg-blue-300 rounded-full"
             style={{
               animation: "float 3s ease-in-out infinite",
               animationDelay: "0.5s",
             }}
-          />
+          ></div>
         </div>
-        <div className="absolute opacity-75 top-1/3 left-32">
-          <img
-            src="/spark.svg"
-            alt="spark"
-            className="w-10 h-10"
+        <div className="absolute opacity-25 top-1/3 left-32">
+          <div
+            className="w-3 h-3 bg-purple-300 rounded-full"
             style={{
               animation: "float 3s ease-in-out infinite",
               animationDelay: "1.5s",
             }}
-          />
+          ></div>
         </div>
 
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div className="space-y-8">
-              <div className={`inline-flex items-center px-4 py-2 text-sm font-medium border rounded-full ${state.isDarkMode ? 'text-emerald-300 bg-emerald-900/30 border-emerald-700' : 'text-emerald-700 bg-emerald-50 border-emerald-200'}`}>
+              <div className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-full text-emerald-700 bg-emerald-50 border-emerald-200">
                 <div className="w-2 h-2 mr-2 rounded-full bg-emerald-500 animate-pulse"></div>
                 AI 기반 맞춤형 동화 서비스
               </div>
 
-              <h1 className={`text-4xl font-bold leading-tight tracking-tight lg:text-6xl ${state.isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h1 className="text-4xl font-bold leading-tight tracking-tight text-gray-900 lg:text-6xl">
                 우리 아이만의
                 <br />
                 <span className="relative inline-block">
                   <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 blur-lg opacity-30 animate-pulse"></span>
-                  <span className="relative font-bold text-transparent bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text drop-shadow-lg">
+                  <span className="relative text-transparent bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text font-bold drop-shadow-lg">
                     마법같은 동화책
                   </span>
                 </span>
               </h1>
 
-              <p className={`max-w-lg text-lg leading-relaxed ${state.isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className="max-w-lg text-lg leading-relaxed text-gray-600">
                 우리 아이가 주인공이 되는 특별한 동화를 만들어보세요.
                 <br />
                 세상에 단 하나뿐인 동화책이 AI의 마법으로 탄생합니다.
@@ -163,9 +145,10 @@ const Home = () => {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <button
                   onClick={handleStartClick}
-                  className="flex items-center justify-center px-8 py-4 text-base font-medium text-white transition-all duration-300 transform shadow-lg rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 group hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 hover:shadow-2xl hover:-translate-y-1 hover:scale-105"
+                  className="flex items-center justify-center px-8 py-4 text-base font-medium text-white transition-all duration-200 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 group hover:from-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
                   동화 만들기 시작
+                  <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" />
                 </button>
               </div>
             </div>
@@ -173,7 +156,7 @@ const Home = () => {
             <div className="relative lg:pl-8">
               <div className="relative transition-transform duration-500 transform hover:scale-105">
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-3xl rotate-6 opacity-20"></div>
-                <div className={`relative p-6 border shadow-2xl rounded-3xl ${state.isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+                <div className="relative p-6 bg-white border border-gray-200 shadow-2xl rounded-3xl">
                   <div className="overflow-hidden rounded-2xl">
                     <img
                       src="/lion-family.png"
@@ -216,7 +199,7 @@ const Home = () => {
                 howItWorksSection.scrollIntoView({ behavior: "smooth" });
               }
             }}
-            className={`flex flex-col items-center justify-center w-24 h-24 transition-all duration-300 rounded-full hover:scale-110 group ${state.isDarkMode ? 'text-gray-500 hover:text-emerald-400' : 'text-gray-400 hover:text-emerald-600'}`}
+            className="flex flex-col items-center justify-center w-24 h-24 text-gray-400 transition-all duration-300 rounded-full hover:text-emerald-600 hover:scale-110 group"
           >
             <div className="w-6 h-6 animate-bounce">
               <svg
@@ -254,83 +237,13 @@ const Home = () => {
       </section>
 
       {/* How it works */}
-      <section className={`relative py-20 overflow-hidden ${state.isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
-        {/* Background decorative elements */}
-        <div className="absolute top-10 right-20 opacity-80">
-          <img
-            src="/star.svg"
-            alt="star"
-            className="w-6 h-6"
-            style={{
-              animation: "float 3s ease-in-out infinite",
-              animationDelay: "2s",
-            }}
-          />
-        </div>
-        <div className="absolute opacity-75 bottom-20 left-10">
-          <img
-            src="/spark.svg"
-            alt="spark"
-            className="w-8 h-8"
-            style={{
-              animation: "float 3s ease-in-out infinite",
-              animationDelay: "1s",
-            }}
-          />
-        </div>
-
-        {/* Additional background decorations */}
-        <div className="absolute z-0 top-32 left-20 opacity-85">
-          <img
-            src="/sun.svg"
-            alt="sun"
-            className="w-16 h-16"
-            style={{
-              animation: "float 3s ease-in-out infinite",
-              animationDelay: "0.5s",
-            }}
-          />
-        </div>
-        <div className="absolute z-0 opacity-80 top-80 right-24">
-          <img
-            src="/circle.svg"
-            alt="circle"
-            className="w-12 h-12"
-            style={{
-              animation: "float 3s ease-in-out infinite",
-              animationDelay: "2.5s",
-            }}
-          />
-        </div>
-        <div className="absolute z-0 bottom-32 left-32 opacity-80">
-          <img
-            src="/star.svg"
-            alt="star"
-            className="w-14 h-14"
-            style={{
-              animation: "float 3s ease-in-out infinite",
-              animationDelay: "1.8s",
-            }}
-          />
-        </div>
-        <div className="absolute z-0 top-96 right-40 opacity-85">
-          <img
-            src="/spark.svg"
-            alt="spark"
-            className="w-10 h-10"
-            style={{
-              animation: "float 3s ease-in-out infinite",
-              animationDelay: "3s",
-            }}
-          />
-        </div>
-
+      <section className="py-20 bg-white">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="max-w-2xl mx-auto mb-20 text-center">
-            <h2 className={`mb-6 text-4xl font-bold tracking-tight lg:text-5xl ${state.isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 lg:text-5xl">
               단, 3단계로 완성되는 맞춤 동화
             </h2>
-            <p className={`text-xl ${state.isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className="text-xl text-gray-600">
               복잡한 과정 없이 몇 분만에 아이만의 특별한 동화를 만나보세요.
             </p>
           </div>
@@ -354,38 +267,20 @@ const Home = () => {
               },
             ].map((step, index) => (
               <div key={index} className="relative group">
-                <div className={`flex flex-col items-center p-8 text-center transition-all duration-300 border shadow-lg rounded-2xl hover:shadow-xl hover:-translate-y-2 ${state.isDarkMode ? 'bg-gray-800 border-gray-700 hover:border-emerald-600' : 'bg-white border-gray-200 hover:border-emerald-200'}`}>
+                <div className="flex flex-col items-center p-8 text-center transition-all duration-300 border border-gray-300 shadow-sm rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-lg hover:-translate-y-1">
                   {/* Step Number */}
                   <div className="relative mb-6">
-                    <div
-                      className={`flex items-center justify-center w-16 h-16 text-2xl font-bold text-white rounded-full shadow-lg ${
-                        index === 0
-                          ? "bg-gradient-to-br from-emerald-500 to-teal-600"
-                          : index === 1
-                          ? "bg-gradient-to-br from-blue-500 to-indigo-600"
-                          : "bg-gradient-to-br from-purple-500 to-pink-600"
-                      }`}
-                    >
+                    <div className="flex items-center justify-center w-16 h-16 text-2xl font-bold text-white rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600">
                       {step.step}
                     </div>
                     <div className="absolute w-6 h-6 rounded-full -top-1 -right-1 bg-gradient-to-br from-emerald-400 to-teal-500 animate-pulse"></div>
                   </div>
 
                   {/* Content */}
-                  <h3
-                    className={`mb-4 text-2xl font-bold transition-colors duration-300 ${
-                      state.isDarkMode ? 'text-white' : 'text-gray-900'
-                    } ${
-                      index === 0
-                        ? "group-hover:text-emerald-600"
-                        : index === 1
-                        ? "group-hover:text-blue-600"
-                        : "group-hover:text-purple-600"
-                    }`}
-                  >
+                  <h3 className="mb-4 text-2xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600">
                     {step.title}
                   </h3>
-                  <p className={`max-w-sm text-base leading-relaxed font-medium ${state.isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <p className="max-w-sm text-base leading-relaxed text-gray-600">
                     {step.description}
                   </p>
                 </div>

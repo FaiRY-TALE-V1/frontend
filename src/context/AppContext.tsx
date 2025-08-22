@@ -10,13 +10,15 @@ type AppAction =
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_ERROR"; payload: string | undefined }
   | { type: "RESET_STATE" }
-  | { type: "CLEAR_ERROR" };
+  | { type: "CLEAR_ERROR" }
+  | { type: "SET_DARK_MODE"; payload: boolean };
 
 // Initial State
 const initialState: AppState = {
   currentScene: 0,
   isLoading: false,
   error: undefined,
+  isDarkMode: false,
 };
 
 // Reducer
@@ -64,6 +66,11 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         error: undefined,
       };
+    case "SET_DARK_MODE":
+      return {
+        ...state,
+        isDarkMode: action.payload,
+      };
     case "RESET_STATE":
       return initialState;
     default:
@@ -84,6 +91,8 @@ interface AppContextType {
   setError: (error: string | undefined) => void;
   clearError: () => void;
   resetState: () => void;
+  setDarkMode: (isDark: boolean) => void;
+  toggleDarkMode: () => void;
   // Computed values
   hasProfile: boolean;
   hasTheme: boolean;
@@ -132,6 +141,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     dispatch({ type: "RESET_STATE" });
   };
 
+  const setDarkMode = (isDark: boolean) => {
+    dispatch({ type: "SET_DARK_MODE", payload: isDark });
+  };
+
+  const toggleDarkMode = () => {
+    dispatch({ type: "SET_DARK_MODE", payload: !state.isDarkMode });
+  };
+
   // Computed values
   const hasProfile = Boolean(state.childProfile && state.childProfile.name);
   const hasTheme = Boolean(state.selectedTheme);
@@ -150,6 +167,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setError,
     clearError,
     resetState,
+    setDarkMode,
+    toggleDarkMode,
     hasProfile,
     hasTheme,
     hasStory,
